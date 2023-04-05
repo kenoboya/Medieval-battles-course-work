@@ -9,4 +9,6 @@ public interface Action
     public TranslateTransition walk();
     public void returnToTheFortress();
     public void seizePoint();
+    public void takePeople();
+    public void letGoPeople();
 }

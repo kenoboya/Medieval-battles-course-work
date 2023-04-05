@@ -1,7 +1,5 @@
 package codeGame.action;
 import codeGame.Main;
-import codeGame.oldAction.movePeople;
-import codeGame.oldAction.stopMovePeople;
 import javafx.animation.TranslateTransition;
 public class Movement
 {

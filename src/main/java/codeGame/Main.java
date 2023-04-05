@@ -97,6 +97,11 @@ public class Main extends Application {
                 case Q -> Peasant.walkAgain();
                 case F -> Movement.moveToPoint();
                 case J -> deadAllPeople.dead();
+                case NUMPAD6 -> interactionWithEachPeople.selectedPeopleMoveRIGHT();
+                case NUMPAD4 -> interactionWithEachPeople.selectedPeopleMoveLEFT();
+                case NUMPAD8 -> interactionWithEachPeople.selectedPeopleMoveUP();
+                case NUMPAD2 -> interactionWithEachPeople.selectedPeopleMoveDOWN();
+                case X -> interactionWithEachPeople.letGoPeople();
                 case F10 -> stage.close();
 
                 // Устарело
@@ -107,6 +112,7 @@ public class Main extends Application {
                 case J -> deadAllPeople.dead();*/
             }
         });
+
         stage.setMaxHeight(1980);
         stage.setMaxHeight(1080);
         stage.setScene(scene);

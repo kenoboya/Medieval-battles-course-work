@@ -1,26 +1,27 @@
 package codeGame.microObject;
 import codeGame.Main;
 import codeGame.action.Movement;
+import codeGame.action.interactionWithEachPeople;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 public class Peasant extends AbstractPeople implements Action
 {
-
     private int uniqueID = 1;
     private int HP = 100;
     private final double DAMAGE = 10.5;
     // LAB2
-    public Peasant() {System.out.println("Called basic constructor");}
+/*    public Peasant() {System.out.println("Called basic constructor");}
     static{System.out.println("A static block was called");}
-    {System.out.println("A dynamic block was called");}
+    {System.out.println("A dynamic block was called");}*/
     // LAB2
     public Peasant(String name, int age, String team, double _x, double _y)
     {
@@ -106,11 +107,13 @@ public class Peasant extends AbstractPeople implements Action
         super.viewObject = new ImageView(imageObject);
         super.viewObject.setX(x);
         super.viewObject.setY(y+15+5); // +15+5
+        super.viewObject.setOnMouseClicked(interactionWithEachPeople.getHandler());
     }
     private void setGroup()
     {
         super.group = new Group();
-        super.group.getChildren().addAll(super.label,super.viewObject,super.groupHP); // life (Убрал полоску)
+        super.group.getChildren().addAll(super.label,super.viewObject,super.groupHP);
+        /*super.group.setOnMouseClicked(interactionWithEachPeople.getHandler());*/
     }
     public void setAge(int age) {
         super.age = age;
@@ -223,4 +226,29 @@ public class Peasant extends AbstractPeople implements Action
     }
     @Override
     public void seizePoint() {}
+    @Override
+    public void takePeople()
+    {
+        super.lineRectangle.setX(viewObject.getX());
+        super.lineRectangle.setY(viewObject.getY() -25);
+        super.lineRectangle.setStroke(Color.YELLOW);
+        super.lineRectangle.setStrokeType(StrokeType.INSIDE);
+        super.lineRectangle.setFill(Color.TRANSPARENT);
+        super.lineRectangle.setHeight(230);
+        super.lineRectangle.setWidth(165);
+        try {
+            Main.group.getChildren().remove(super.group);
+            super.group.getChildren().add(super.lineRectangle);
+            Main.group.getChildren().add(super.group);
+        }
+        catch(Exception ex) {System.out.println("For programmer: " + ex.getMessage());}
+    }
+    @Override
+    public void letGoPeople()
+    {
+        Main.group.getChildren().remove(super.group);
+        super.group.getChildren().remove(super.lineRectangle);
+        Main.group.getChildren().add(super.group);
+    }
+
 }
