@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 public class Warrior extends Peasant
 {
     private int HP = 250;
-    private final double DAMAGE = 25.5;
+    private final double DAMAGE = 50;
     public Warrior(String name, int age, String team, double _x, double _y)
     {
 

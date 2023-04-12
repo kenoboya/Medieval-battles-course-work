@@ -17,6 +17,7 @@ public class infoAboutPeopleDialog
     {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
+        window.setResizable(false);
         window.setTitle("Information about soldier");
         window.setMinWidth(350);
         window.setMaxHeight(350);

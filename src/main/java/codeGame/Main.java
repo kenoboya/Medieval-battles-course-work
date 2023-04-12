@@ -68,7 +68,7 @@ public class Main extends Application {
     }
     public static ArrayList<Peasant> createEveryThingArmy()
     {
-       ArrayList<Peasant> everythingArmy = new ArrayList<Peasant>();
+        ArrayList<Peasant> everythingArmy = new ArrayList<Peasant>();
         everythingArmy.addAll(Main.armyRed);
         everythingArmy.addAll(Main.armyGreen);
         return everythingArmy;
@@ -92,24 +92,20 @@ public class Main extends Application {
                 case F2 -> deletePeopleDialog.display(500,500);
                 case F3 -> changePeopleParameterDialog.display(500,500);
                 case F4 -> infoAboutPeopleDialog.display(500,500);
+
                 case NUMPAD0 -> Movement.walk();
                 case E -> Peasant.stand();
                 case Q -> Peasant.walkAgain();
-                case F -> Movement.moveToPoint();
-                case J -> deadAllPeople.dead();
+                case F -> Peasant.returnToTheFortress();
+                case J -> Movement.clear();
+
                 case NUMPAD6 -> interactionWithEachPeople.selectedPeopleMoveRIGHT();
                 case NUMPAD4 -> interactionWithEachPeople.selectedPeopleMoveLEFT();
                 case NUMPAD8 -> interactionWithEachPeople.selectedPeopleMoveUP();
                 case NUMPAD2 -> interactionWithEachPeople.selectedPeopleMoveDOWN();
-                case X -> interactionWithEachPeople.letGoPeople();
-                case F10 -> stage.close();
+                case NUMPAD5 -> interactionWithEachPeople.letGoPeople();
 
-                // Устарело
-/*                case NUMPAD0 -> movePeople.walk();
-                case E -> stopMovePeople.stopWalk();
-                case Q -> stopMovePeople.againWalk();
-                case F -> moveTo.moveToPoint();
-                case J -> deadAllPeople.dead();*/
+                case F10 -> stage.close();
             }
         });
 
@@ -117,7 +113,6 @@ public class Main extends Application {
         stage.setMaxHeight(1080);
         stage.setScene(scene);
         stage.show();
-
     }
     public static void main(String[] args) {
         launch();

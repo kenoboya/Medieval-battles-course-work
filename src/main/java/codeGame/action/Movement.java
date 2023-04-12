@@ -1,32 +1,37 @@
 package codeGame.action;
 import codeGame.Main;
+import codeGame.microObject.Peasant;
 import javafx.animation.TranslateTransition;
+import java.util.HashMap;
+
 public class Movement
 {
+    public static HashMap<Peasant,TranslateTransition> transitionsMap = new HashMap<>();
     static boolean stood = false;
     private static TranslateTransition [] transitions;
     public static void walk() {
         transitions = new TranslateTransition[Main.createEveryThingArmy().size()];
+        transitionsMap =  new HashMap<>();
         int index = 0;
-        for (var el : Main.createEveryThingArmy()) {
-            transitions[index] = el.walk();
-            index++;
+        for (var el : Main.createEveryThingArmy())
+        {
+            if(!el.getStatusDead())
+            {
+                transitions[index] = el.walk();
+                transitionsMap.put(el, transitions[index]);
+                index++;
+            }
         }
         statusCheck();
     }
     private static void stopAnimation()
     {
-        for (var transition : transitions) {
-            transition.pause();
-        }
+        for (var transition : transitions) {transition.pause();}
         stood = true;
     }
     private static void playAnimation()
     {
-        for(var transition : transitions)
-        {
-            transition.play();
-        }
+        for(var transition : transitions) {transition.play();}
         stood = false;
     }
     private static void statusCheck()
@@ -55,15 +60,28 @@ public class Movement
         catch (Exception ex)
         {
             walk();
-/*            System.out.println("For programmer: " + ex.getMessage());
-            System.out.println("For user: " + "Objects are already moving or the animation hasn't even started");*/
+            System.out.println("For programmer: " + ex.getMessage());
+            System.out.println("For user: " + "Objects are already moving or the animation hasn't even started");
         }
     }
-    public static void moveToPoint()
+    public static void clear()
     {
-        stopWalk();
-        for (var el : Main.armyGreen) {el.returnToTheFortress();}
-        for (var el : Main.armyRed) {el.returnToTheFortress();}
-        walk();
+        for(var el : Main.createEveryThingArmy())
+        {
+            if(el.getStatusDead())
+            {
+                if(el.getTeam().equalsIgnoreCase("RED"))
+                {
+                    Main.armyRed.remove(el);
+                }
+                else if(el.getTeam().equalsIgnoreCase("GREEN"))
+                {
+                    Main.armyGreen.remove(el);
+                }
+                transitionsMap.remove(el);
+                Main.group.getChildren().remove(el.getGroup());
+                el = null;
+            }
+        }
     }
 }

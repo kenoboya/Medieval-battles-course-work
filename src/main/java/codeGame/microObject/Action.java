@@ -5,9 +5,8 @@ import javafx.animation.TranslateTransition;
 public interface Action
 {
     public void dead();
-    public void attackUnit();
+    public boolean attackUnit(double damage);
     public TranslateTransition walk();
-    public void returnToTheFortress();
     public void seizePoint();
     public void takePeople();
     public void letGoPeople();

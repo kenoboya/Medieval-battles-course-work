@@ -6,8 +6,6 @@ import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
-
 import java.util.HashMap;
 
 public class interactionWithEachPeople
@@ -30,7 +28,7 @@ public class interactionWithEachPeople
             TranslateTransition transition = new TranslateTransition();
             transition.setNode(selected.getGroup());
             double newX = selected.getY() - 60;
-            if (Main.sizeX >= newX && newX >= Main.minX) {
+            if (Main.sizeX - 200 >= newX && newX >= Main.minX) {
                 transition.setByX(-60);
                 selected.setXY(newX, selected.getY());
             }
@@ -43,7 +41,7 @@ public class interactionWithEachPeople
             TranslateTransition transition = new TranslateTransition();
             transition.setNode(selected.getGroup());
             double newX = selected.getY() + 60;
-            if (Main.sizeX >= newX && newX >= Main.minX) {
+            if (Main.sizeX - 200 >= newX && newX >= Main.minX) {
                 transition.setByX(60);
                 selected.setXY(newX, selected.getY());
             }

@@ -14,6 +14,7 @@ public class changePeopleParameterDialog
     {
           Stage window =  new Stage();
           window.initModality(Modality.APPLICATION_MODAL);
+          window.setResizable(false);
           window.setTitle("Change parameters");
           window.setMinWidth(350);
           window.setMinHeight(350);
@@ -36,18 +37,18 @@ public class changePeopleParameterDialog
           Label nameLabel = new Label();
           nameLabel.setText("Name: ");
           TextField nameText = new TextField();
+          nameText.setPromptText("Igor");
 
           Label ageLabel = new Label();
           ageLabel.setText("Age: ");
           TextField ageText = new TextField();
+          ageText.setPromptText("34");
 
           Label teamLabel = new Label();
           teamLabel.setText("Team: ");
-          TextField teamText = new TextField();
 
           Label classLabel = new Label();
           classLabel.setText("Type: ");
-          TextField classText = new TextField();
 
           Label changeLabel = new Label("Select the person you want to change");
 

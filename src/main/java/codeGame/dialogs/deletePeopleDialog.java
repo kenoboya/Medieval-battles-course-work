@@ -15,6 +15,7 @@ public class deletePeopleDialog
     {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
+        window.setResizable(false);
         window.setTitle("Delete people");
         window.setMinWidth(350);
         window.setMinHeight(350);

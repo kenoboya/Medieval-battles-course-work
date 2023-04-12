@@ -15,6 +15,7 @@ public class createPeopleDialog
     {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
+        window.setResizable(false);
         window.setTitle("Creating soldier");
         window.setMinWidth(350);
         window.setMinHeight(350);
@@ -35,10 +36,12 @@ public class createPeopleDialog
         Label nameLabel = new Label();
         nameLabel.setText("Name: ");
         TextField nameText = new TextField();
+        nameText.setPromptText("Arthur");
 
         Label ageLabel = new Label();
         ageLabel.setText("Age: ");
         TextField ageText = new TextField();
+        ageText.setPromptText("17");
 
         Label teamLabel = new Label();
         teamLabel.setText("Team: ");
@@ -46,10 +49,12 @@ public class createPeopleDialog
         Label xLabel = new Label();
         xLabel.setText("X: ");
         TextField xText = new TextField();
+        xText.setPromptText("0 to 1345");
 
         Label yLabel = new Label();
         yLabel.setText("Y: ");
         TextField yText = new TextField();
+        yText.setPromptText("0 to 580");
 
         Label classLabel = new Label();
         classLabel.setText("Type: ");

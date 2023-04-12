@@ -17,7 +17,7 @@ public class Peasant extends AbstractPeople implements Action
 {
     private int uniqueID = 1;
     private int HP = 100;
-    private final double DAMAGE = 10.5;
+    private final double DAMAGE = 35;
     // LAB2
 /*    public Peasant() {System.out.println("Called basic constructor");}
     static{System.out.println("A static block was called");}
@@ -38,6 +38,7 @@ public class Peasant extends AbstractPeople implements Action
         setGroup();
         Main.group.getChildren().add(getGroup());
     }
+    public boolean getStatusDead(){return super.dead;}
     public ImageView getImageView(){return super.viewObject;}
     public Group getGroup()
     {
@@ -113,7 +114,6 @@ public class Peasant extends AbstractPeople implements Action
     {
         super.group = new Group();
         super.group.getChildren().addAll(super.label,super.viewObject,super.groupHP);
-        /*super.group.setOnMouseClicked(interactionWithEachPeople.getHandler());*/
     }
     public void setAge(int age) {
         super.age = age;
@@ -159,70 +159,244 @@ public class Peasant extends AbstractPeople implements Action
     @Override
     public void dead()
     {
+        try {Movement.transitionsMap.get(this).stop();/*Movement.transitionsMap.remove(this);*/}
+        catch(Exception ex){};
         Main.group.getChildren().remove(super.group);
         super.pathRED = super.pathGREEN = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\coffin.png";
         setTeam(super.team);
         setName(super.name);
         setImageView();
-        Main.group.getChildren().addAll(super.label,super.viewObject);
+        super.group = new Group();
+        super.group.getChildren().addAll(super.label,super.viewObject);
+        Main.group.getChildren().addAll(super.group);
+        super.dead = true;
     }
+
     @Override
-    public void attackUnit() {}
+    public boolean attackUnit(double damage)
+    {
+        String pathToHP = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\health.png";
+         super.HP -= damage;
+         if(super.HP >= 301)
+         {
+             Main.group.getChildren().remove(super.group);
+             super.group.getChildren().remove(super.groupHP);
+             super.groupHP = new Group();
+             for(int i = 0,dX = 35; i < 4; i++,dX+=20) {
+                 super.healthView = new ImageView(new Image(pathToHP));
+                 super.healthView.setX(this.viewObject.getX() + dX);
+                 super.healthView.setY(this.viewObject.getY() - 25);
+                 super.groupHP.getChildren().addAll(super.healthView);
+             }
+             super.group.getChildren().add(super.groupHP);
+             Main.group.getChildren().add(super.group);
+         }
+         else if(super.HP >= 201)
+         {
+             super.group.getChildren().remove(super.groupHP);
+             Main.group.getChildren().remove(super.group);
+             super.groupHP = new Group();
+             for(int i = 0,dX = 35; i < 3; i++,dX+=20) {
+                 super.healthView = new ImageView(new Image(pathToHP));
+                 super.healthView.setX(this.viewObject.getX() + dX);
+                 super.healthView.setY(this.viewObject.getY() - 25);
+                 super.groupHP.getChildren().addAll(super.healthView);
+             }
+             super.group.getChildren().add(super.groupHP);
+             Main.group.getChildren().add(super.group);
+         }
+         else if(super.HP >= 101)
+         {
+             super.group.getChildren().remove(super.groupHP);
+             Main.group.getChildren().remove(super.group);
+             super.groupHP = new Group();
+             for(int i = 0,dX = 35; i < 2; i++,dX+=20) {
+                 super.healthView = new ImageView(new Image(pathToHP));
+                 super.healthView.setX(this.viewObject.getX() + dX);
+                 super.healthView.setY(this.viewObject.getY() - 25);
+                 super.groupHP.getChildren().addAll(super.healthView);
+             }
+             super.group.getChildren().add(super.groupHP);
+             Main.group.getChildren().add(super.group);
+         }
+         else if(super.HP > 0)
+         {
+             super.group.getChildren().remove(super.groupHP);
+             Main.group.getChildren().remove(super.group);
+             super.groupHP = new Group();
+             for(int i = 0,dX = 35; i < 1; i++,dX+=20) {
+                 super.healthView = new ImageView(new Image(pathToHP));
+                 super.healthView.setX(this.viewObject.getX() + dX);
+                 super.healthView.setY(this.viewObject.getY() - 25);
+                 super.groupHP.getChildren().addAll(super.healthView);
+             }
+             super.group.getChildren().add(super.groupHP);
+             Main.group.getChildren().add(super.group);
+         }
+         else if(super.HP <= 0) {dead(); return false;}
+         return true;
+    }
     @Override
     public TranslateTransition walk()
     {
-            TranslateTransition transition = new TranslateTransition(Duration.seconds(1));
-            double randomX = Math.floor(Math.random() * Main.sizeX/2 - (Main.sizeX/2)/2);
-            double randomY = Math.floor(Math.random() * Main.sizeY/2 - (Main.sizeY/2)/2);
-            double newX = getX() + randomX;
-            double newY = getY() + randomY;
-            transition.setNode(getGroup());
-            if(Main.minX <= newX && Main.minY <= newY && Main.sizeX >= newX && Main.sizeY >= newY) {
-                transition.setByX(randomX);
-                transition.setByY(randomY);
+        TranslateTransition transition = new TranslateTransition(Duration.millis(250));
+        double randomDiraction =  Math.floor(1 + Math.random() * 4);
+        double newX = getX(),newY = getY(),moveX = 0,moveY = 0;
+        boolean collision = false;
+        transition.setNode(getGroup());
+        switch((int)randomDiraction)
+        {
+            // RIGHT
+            case 1: newX = getX() + 25;
+                moveX = 25;
+                break;
+            // LEFT
+            case 2: newX = getX() - 25;
+                moveX = - 25;
+                break;
+            // UP
+            case 3: newY = getY() - 25;
+                moveY = - 25;
+                break;
+            // DOWN
+            case 4: newY = getY() + 25;
+                moveY = 25;
+                break;
+        }
+        if(Main.minX <= newX && Main.minY <= newY && Main.sizeX >= newX && Main.sizeY >= newY) {
+            for(var el : Main.createEveryThingArmy())
+            {
+                if(!this.equals(el)) {
+                    if (el.getX() <= newX && el.getY() <= newY) {
+                        if (el.getX() + 125 > newX && el.getY() + 175 > newY) {
+                            collision = true;
+                        }
+                    }
+                    else if (el.getX() >= newX && el.getY() >= newY) {
+                        if (el.getX() - 125 < newX && el.getY() - 175 < newY) {
+                            collision = true;
+                        }
+                    }
+                }
+            }
+            if(!collision) {
+                transition.setByX(moveX);
+                transition.setByY(moveY);
                 setXY(newX,newY);
             }
-            else {transition.setByX(0);transition.setByY(0);}
-            transition.setOnFinished(e -> {
-                transition.setNode(getGroup());
-                double randomX2 = Math.floor(Math.random() * Main.sizeX/2 - (Main.sizeX/2)/2);
-                double randomY2 = Math.floor(Math.random() * Main.sizeY/2 - (Main.sizeY/2)/2);
-                double newX2 = getX() + randomX2;
-                double newY2 = getY() + randomY2;
-                if(Main.minX <= newX2 && Main.minY <= newY2 && Main.sizeX >= newX2 && Main.sizeY >= newY2) {
-                    transition.setByX(randomX2);
-                    transition.setByY(randomY2);
-                    setXY(newX2,newY2);
+            else {transition.setByX(0); transition.setByY(0); System.out.println("COLLISION");}
+        }
+        else { transition.setByX(0); transition.setByY(0); System.out.println("BORDER");}
+
+        transition.setOnFinished(e -> {
+            transition.setNode(getGroup());
+
+            // Почему все переменные лямбда?
+            // Я бы с большим удовольствием сделал бы переменные статическими
+            // Но по условию курсовой работы, методы должны быть в классе.
+            // А создать в классе эти переменные не сильно хотелось.
+            // Было принято решение немного написать плохой код.
+
+            double randomDiraction_LAMBDA = Math.floor(1 + Math.random() * 4);
+            double newX_LAMBDA = getX(),newY_LAMBDA = getY(),moveX_LAMBDA = 0,moveY_LAMBDA = 0;
+            boolean collision_LAMBDA = false;
+            switch((int)randomDiraction_LAMBDA)
+            {
+                // RIGHT
+                case 1: newX_LAMBDA = getX() + 25;
+                    moveX_LAMBDA = 25;
+                    break;
+                // LEFT
+                case 2: newX_LAMBDA = getX() - 25;
+                    moveX_LAMBDA = - 25;
+                    break;
+                // UP
+                case 3: newY_LAMBDA = getY() - 25;
+                    moveY_LAMBDA = - 25;
+                    break;
+                // DOWN
+                case 4: newY_LAMBDA = getY() + 25;
+                    moveY_LAMBDA = 25;
+                    break;
+            }
+            if(Main.minX <= newX_LAMBDA && Main.minY <= newY_LAMBDA && Main.sizeX >= newX_LAMBDA && Main.sizeY >= newY_LAMBDA) {
+                for(var el : Main.createEveryThingArmy())
+                {
+                    if(!this.equals(el)) {
+                        if (el.getX() <= newX_LAMBDA && el.getY() <= newY_LAMBDA) {
+                            if (el.getX() + 125 > newX_LAMBDA && el.getY() + 175 > newY_LAMBDA) {
+                                collision_LAMBDA = true;
+                            }
+                        }
+                        else if (el.getX() >= newX_LAMBDA && el.getY() >= newY_LAMBDA) {
+                            if (el.getX() - 125 < newX_LAMBDA && el.getY() - 175 < newY_LAMBDA) {
+                                collision_LAMBDA = true;
+                            }
+                        }
+                    }
                 }
-                else {transition.setByX(0); transition.setByY(0);}
-                transition.playFromStart();
-            });
-            return transition;
+                if(!collision_LAMBDA) {
+                    transition.setByX(moveX_LAMBDA);
+                    transition.setByY(moveY_LAMBDA);
+                    setXY(newX_LAMBDA,newY_LAMBDA);
+
+                    for(var el : Main.createEveryThingArmy())
+                    {
+
+                            if (!(el.getTeam().equalsIgnoreCase(this.team)))
+                            {
+                                if (el.getX() <= this.getX() && el.getY() <= this.getY()) {
+                                    if (el.getX() + 150 > this.getX() && el.getY() + 200 > this.getY()) {
+                                        if (!((el.dead || this.dead) || (el.dead && this.dead))) {
+                                            el.attackUnit(this.DAMAGE);
+                                            attackUnit(el.DAMAGE);
+                                        }
+                                    }
+                                }
+                                else if (el.getX() >= this.getX() && el.getY() >= this.getY()) {
+                                    if (el.getX() - 150 < this.getX() && el.getY() - 200 < this.getY()) {
+                                        if (!((el.dead || this.dead) || (el.dead && this.dead))) {
+                                            el.attackUnit(this.DAMAGE);
+                                            attackUnit(el.DAMAGE);
+                                        }
+                                    }
+                                }
+                            }
+                    }
+                }
+                else {transition.setByX(0.0); transition.setByY(0.0);System.out.println("COLLISION");}
+            }
+            else {transition.setByX(0.0); transition.setByY(0.0); System.out.println("BORDER");}
+           if(!this.getStatusDead()) {transition.playFromStart();}
+        });
+        return transition;
+
     }
     public static void stand() {Movement.stopWalk();}
 
     public static void walkAgain() {Movement.againWalk();}
-    @Override
-    public void returnToTheFortress()
+
+    public static void returnToTheFortress()
     {
-        if(super.team.equalsIgnoreCase("Red"))
-        {
-            TranslateTransition transition = new TranslateTransition(Duration.seconds(1));
-            transition.setNode(getGroup());
-            transition.setByX(Math.floor(1245 - getX()));
-            transition.setByY(Math.floor(255 - getY()));
-            setXY(1245, 255);
-            transition.play();
+        try {
+            for (var el : Main.armyRed) {
+                TranslateTransition transition = new TranslateTransition(Duration.seconds(1));
+                transition.setNode(el.getGroup());
+                transition.setByX(Math.floor(1245 - el.getX()));
+                transition.setByY(Math.floor(255 - el.getY()));
+                el.setXY(1245, 255);
+                transition.play();
+            }
+            for (var el : Main.armyGreen) {
+                TranslateTransition transition1 = new TranslateTransition(Duration.seconds(1));
+                transition1.setNode(el.getGroup());
+                transition1.setByX(Math.floor(165 - el.getX()));
+                transition1.setByY(Math.floor(330 - el.getY()));
+                el.setXY(165, 330);
+                transition1.play();
+            }
         }
-        else if(super.team.equalsIgnoreCase("Green"))
-        {
-            TranslateTransition transition1 = new TranslateTransition(Duration.seconds(1));
-            transition1.setNode(getGroup());
-            transition1.setByX(Math.floor(165 - getX()));
-            transition1.setByY(Math.floor(330 - getY()));
-            setXY(165, 330);
-            transition1.play();
-        }
+        catch(Exception ex){System.out.println("For programmer: " + ex.getMessage());}
     }
     @Override
     public void seizePoint() {}
@@ -250,5 +424,6 @@ public class Peasant extends AbstractPeople implements Action
         super.group.getChildren().remove(super.lineRectangle);
         Main.group.getChildren().add(super.group);
     }
-
 }
+
+
