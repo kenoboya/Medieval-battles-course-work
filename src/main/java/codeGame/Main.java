@@ -1,5 +1,6 @@
 package codeGame;
 
+import codeGame.macroObject.Fortress;
 import codeGame.microObject.*;
 import codeGame.dialogs.*;
 import codeGame.action.*;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 public class Main extends Application {
+
     static final String RED = "RED";
     static final String GREEN = "GREEN";
     public static Pane group = new Pane();
@@ -68,7 +70,7 @@ public class Main extends Application {
     }
     public static ArrayList<Peasant> createEveryThingArmy()
     {
-       ArrayList<Peasant> everythingArmy = new ArrayList<Peasant>();
+        ArrayList<Peasant> everythingArmy = new ArrayList<Peasant>();
         everythingArmy.addAll(Main.armyRed);
         everythingArmy.addAll(Main.armyGreen);
         return everythingArmy;
@@ -83,6 +85,8 @@ public class Main extends Application {
         String pathBackground = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\map.jpg";
         ImageView mapView = new ImageView(new Image(pathBackground));
         group.getChildren().add(mapView);
+        Fortress FORTRESS_RED = new Fortress(1045, 255, "RED");
+        Fortress FORTRESS_GREEN = new Fortress(130, 255, "GREEN");
         Scene scene = new Scene(group,sizeX+200,sizeY+300); // 1280 800
         scene.setOnKeyPressed((key) ->
         {
@@ -92,27 +96,27 @@ public class Main extends Application {
                 case F2 -> deletePeopleDialog.display(500,500);
                 case F3 -> changePeopleParameterDialog.display(500,500);
                 case F4 -> infoAboutPeopleDialog.display(500,500);
+
                 case NUMPAD0 -> Movement.walk();
                 case E -> Peasant.stand();
                 case Q -> Peasant.walkAgain();
-                case F -> Movement.moveToPoint();
-                case J -> deadAllPeople.dead();
+                case F -> Peasant.returnToTheFortress();
+                case J -> Movement.clearCorpse();
+
                 case NUMPAD6 -> interactionWithEachPeople.selectedPeopleMoveRIGHT();
                 case NUMPAD4 -> interactionWithEachPeople.selectedPeopleMoveLEFT();
                 case NUMPAD8 -> interactionWithEachPeople.selectedPeopleMoveUP();
                 case NUMPAD2 -> interactionWithEachPeople.selectedPeopleMoveDOWN();
-                case X -> interactionWithEachPeople.letGoPeople();
-                case F10 -> stage.close();
+                case NUMPAD5 -> interactionWithEachPeople.letGoPeople();
 
-                // Устарело
-/*                case NUMPAD0 -> movePeople.walk();
-                case E -> stopMovePeople.stopWalk();
-                case Q -> stopMovePeople.againWalk();
-                case F -> moveTo.moveToPoint();
-                case J -> deadAllPeople.dead();*/
+                case DELETE -> interactionWithEachPeople.clear();
+                // Для 3-й лабы (просто другая комбинация клавиш)
+                case INSERT -> createPeopleDialog.display(500,500);
+                case ESCAPE -> interactionWithEachPeople.letGoPeople();
+
+                case F10 -> stage.close();
             }
         });
-
         stage.setMaxHeight(1980);
         stage.setMaxHeight(1080);
         stage.setScene(scene);

@@ -1,75 +1,87 @@
 package codeGame.action;
-
 import codeGame.Main;
 import codeGame.microObject.Peasant;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class interactionWithEachPeople
 {
     public static void selectedPeopleMoveUP() {
-        if(selected != null) {
-            TranslateTransition transition = new TranslateTransition();
-            transition.setNode(selected.getGroup());
-            double newY = selected.getY() - 60;
-            if (Main.sizeY >= newY && newY >= Main.minY) {
-                transition.setByY(-60);
-                selected.setXY(selected.getX(), newY);
+        for(var el : selected) {
+            if (selected != null) {
+                TranslateTransition transition = new TranslateTransition();
+                transition.setNode(el.getGroup());
+                double newY = el.getY() - 60;
+                if (Main.sizeY >= newY && newY >= Main.minY) {
+                    transition.setByY(-60);
+                    el.setXY(el.getX(), newY);
+                }
+                transition.play();
             }
-            transition.play();
         }
     }
     public static void selectedPeopleMoveLEFT()
     {
-        if(selected != null) {
-            TranslateTransition transition = new TranslateTransition();
-            transition.setNode(selected.getGroup());
-            double newX = selected.getY() - 60;
-            if (Main.sizeX >= newX && newX >= Main.minX) {
-                transition.setByX(-60);
-                selected.setXY(newX, selected.getY());
+        for(var el : selected) {
+            if (el != null) {
+                TranslateTransition transition = new TranslateTransition();
+                transition.setNode(el.getGroup());
+                double newX = el.getX() - 60;
+                if (Main.sizeX >= newX && newX >= Main.minX) {
+                    transition.setByX(-60);
+                    el.setXY(newX, el.getY());
+                }
+                transition.play();
             }
-            transition.play();
         }
     }
     public static void selectedPeopleMoveRIGHT()
     {
-        if(selected != null) {
-            TranslateTransition transition = new TranslateTransition();
-            transition.setNode(selected.getGroup());
-            double newX = selected.getY() + 60;
-            if (Main.sizeX >= newX && newX >= Main.minX) {
-                transition.setByX(60);
-                selected.setXY(newX, selected.getY());
+        for(var el : selected) {
+            if (el != null) {
+                TranslateTransition transition = new TranslateTransition();
+                transition.setNode(el.getGroup());
+                double newX = el.getX() + 60;
+                if (Main.sizeX >= newX && newX >= Main.minX) {
+                    transition.setByX(60);
+                    el.setXY(newX, el.getY());
+                }
+                transition.play();
             }
-            transition.play();
         }
     }
     public static void selectedPeopleMoveDOWN()
     {
-        if(selected != null) {
-            TranslateTransition transition = new TranslateTransition();
-            transition.setNode(selected.getGroup());
-            double newY = selected.getY() + 60;
-            if (Main.sizeY >= newY && newY >= Main.minY) {
-                transition.setByY(60);
-                selected.setXY(selected.getX(), newY);
+        for(var el : selected) {
+            if (el != null) {
+                TranslateTransition transition = new TranslateTransition();
+                transition.setNode(el.getGroup());
+                double newY = el.getY() + 60;
+                if (Main.sizeY >= newY && newY >= Main.minY) {
+                    transition.setByY(60);
+                    el.setXY(el.getX(), newY);
+                }
+                transition.play();
             }
-            transition.play();
         }
     }
     public static void letGoPeople()
     {
-        selected.letGoPeople();
-        selected = null;
+        ArrayList<Peasant> dontActive = new ArrayList<>();
+        for(var el : selected)
+        {
+            el.letGoPeople();
+            dontActive.add(el);
+        }
+        selected.removeAll(dontActive);
     }
     private static HashMap<ImageView, Peasant> mapPeople = new HashMap<>();
-    private static Peasant selected;
+    private static ArrayList <Peasant> selected = new ArrayList<>();
     private static HashMap<ImageView,Peasant> fillMap ()
     {
           for(var el: Main.createEveryThingArmy())
@@ -87,12 +99,31 @@ public class interactionWithEachPeople
             if(obj instanceof Peasant people)
             {
                 people.takePeople();
-                selected = people;
+                selected.add(people);
             }
         }
     };
     public static EventHandler<MouseEvent> getHandler()
     {
         return handler;
+    }
+    public static void clear()
+    {
+        for(var el : selected)
+        {
+                if(el.getTeam().equalsIgnoreCase("RED"))
+                {
+                    Main.armyRed.remove(el);
+                }
+                else if(el.getTeam().equalsIgnoreCase("GREEN"))
+                {
+                    Main.armyGreen.remove(el);
+                }
+                Movement.transitionsMap.remove(el);
+                Main.group.getChildren().remove(el.getGroup());
+                el = null;
+        }
+        selected.removeAll(selected);
+
     }
 }

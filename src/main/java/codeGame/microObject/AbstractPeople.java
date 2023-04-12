@@ -19,8 +19,9 @@ public abstract class AbstractPeople
     Label label;
     String name;
     int age;
-    double x,y;
+    volatile double  x,y;
     String pathRED;
     String pathGREEN;
-    static Rectangle lineRectangle = new Rectangle();
+    Rectangle lineRectangle = new Rectangle();
+    boolean dead;
 }
