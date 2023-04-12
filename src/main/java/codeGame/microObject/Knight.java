@@ -7,7 +7,7 @@ public class Knight extends Warrior
     private int chance; // Рандомное число.
 
     private int HP = 500;
-    private final double DAMAGE = 50.5;
+    private final double DAMAGE = 100;
 
     public Knight(String name, int age, String team, double _x, double _y)
     {
