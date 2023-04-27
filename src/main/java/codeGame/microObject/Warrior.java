@@ -6,6 +6,7 @@ public class Warrior extends Peasant
 {
     private int HP = 250;
     private final double DAMAGE = 60;
+    protected People type = People.WARRIOR;
     public Warrior(String name, int age, String team, double _x, double _y)
     {
 
@@ -20,6 +21,8 @@ public class Warrior extends Peasant
         super.pathRED = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\warrior_red.png";
         setPath(pathGREEN,pathRED);
     }
+    @Override
+    public People getType(){return this.type;}
     @Override
     public void setHP() {
         String pathToHP = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\health.png";

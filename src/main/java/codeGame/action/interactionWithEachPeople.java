@@ -1,6 +1,8 @@
 package codeGame.action;
 import codeGame.Main;
+import codeGame.dialogs.insideMacroObject;
 import codeGame.microObject.Peasant;
+import codeGame.microObject.Team;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
@@ -90,7 +92,7 @@ public class interactionWithEachPeople
           }
           return mapPeople;
     }
-
+    public static Peasant elementAfterInsideMacro;
     private static EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
@@ -98,6 +100,18 @@ public class interactionWithEachPeople
             Object obj = mapPeople.get(mouseEvent.getSource());
             if(obj instanceof Peasant people)
             {
+                if(Main.FORTRESS_RED.insidePeople.contains(people))
+                {
+                    Main.FORTRESS_RED.insidePeople.remove(people);
+                    elementAfterInsideMacro = people;
+                    insideMacroObject.window.close();
+                }
+                else if(Main.FORTRESS_GREEN.insidePeople.contains(people))
+                {
+                    Main.FORTRESS_GREEN.insidePeople.remove(people);
+                    elementAfterInsideMacro = people;
+                    insideMacroObject.window.close();
+                }
                 people.takePeople();
                 selected.add(people);
             }
@@ -111,11 +125,11 @@ public class interactionWithEachPeople
     {
         for(var el : selected)
         {
-                if(el.getTeam().equalsIgnoreCase("RED"))
+                if(el.getTeam().equalsIgnoreCase(Team.RED.toString()))
                 {
                     Main.armyRed.remove(el);
                 }
-                else if(el.getTeam().equalsIgnoreCase("GREEN"))
+                else if(el.getTeam().equalsIgnoreCase(Team.GREEN.toString()))
                 {
                     Main.armyGreen.remove(el);
                 }
@@ -124,6 +138,13 @@ public class interactionWithEachPeople
                 el = null;
         }
         selected.removeAll(selected);
-
+    }
+    public static void clonePeople()
+    {
+        for(var el : selected)
+        {
+            try {el.clone();}
+            catch (CloneNotSupportedException e) {throw new RuntimeException(e);}
+        }
     }
 }

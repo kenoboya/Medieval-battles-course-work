@@ -11,7 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 public class deletePeopleDialog
 {
-    public static void display(double x,double y)
+    public static void display()
     {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);

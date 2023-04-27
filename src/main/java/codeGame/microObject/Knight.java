@@ -8,6 +8,7 @@ public class Knight extends Warrior
 
     private int HP = 500;
     private final double DAMAGE = 100;
+    protected People type = People.KNIGHT;
 
     public Knight(String name, int age, String team, double _x, double _y)
     {
@@ -15,6 +16,8 @@ public class Knight extends Warrior
         super.setHP(this.HP);
         super.setDAMAGE(this.DAMAGE);
     }
+    @Override
+    public People getType(){return this.type;}
     @Override
     void setPath()
     {

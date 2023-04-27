@@ -1,6 +1,9 @@
 package codeGame.dialogs;
 
 import codeGame.Main;
+import codeGame.macroObject.Fortress;
+import codeGame.microObject.People;
+import codeGame.microObject.Team;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,7 +14,7 @@ import javafx.stage.Stage;
 
 public class createPeopleDialog
 {
-    public static void display(double x,double y)
+    public static void display()
     {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -25,10 +28,10 @@ public class createPeopleDialog
         layout.setSpacing(10);
 
         ComboBox comboBoxClass = new ComboBox<>();
-        comboBoxClass.getItems().addAll(Main.PEASANT,Main.WARRIOR,Main.KNIGHT);
+        comboBoxClass.getItems().addAll(People.PEASANT.toString(),People.WARRIOR.toString(),People.KNIGHT.toString());
 
-        RadioButton radioButtonRedTeam = new RadioButton("RED");
-        RadioButton radioButtonGreenTeam = new RadioButton("GREEN");
+        RadioButton radioButtonRedTeam = new RadioButton(Team.RED.toString());
+        RadioButton radioButtonGreenTeam = new RadioButton(Team.GREEN.toString());
         ToggleGroup group =  new ToggleGroup();
         radioButtonRedTeam.setToggleGroup(group);
         radioButtonGreenTeam.setToggleGroup(group);
@@ -49,12 +52,12 @@ public class createPeopleDialog
         Label xLabel = new Label();
         xLabel.setText("X: ");
         TextField xText = new TextField();
-        xText.setPromptText("0 to 1345");
+        xText.setPromptText("0 to 2750");
 
         Label yLabel = new Label();
         yLabel.setText("Y: ");
         TextField yText = new TextField();
-        yText.setPromptText("0 to 580");
+        yText.setPromptText("0 to 1375");
 
         Label classLabel = new Label();
         classLabel.setText("Type: ");
@@ -76,12 +79,12 @@ public class createPeopleDialog
                     team = radioButtonGreenTeam.getText();
                 }
 
-                if (comboBoxClass.getValue().equals(Main.PEASANT)) {
-                    Class = Main.PEASANT;
-                } else if (comboBoxClass.getValue().equals(Main.WARRIOR)) {
-                    Class = Main.WARRIOR;
-                } else if (comboBoxClass.getValue().equals(Main.KNIGHT)) {
-                    Class = Main.KNIGHT;
+                if (comboBoxClass.getValue().equals(People.PEASANT.toString())) {
+                    Class = People.PEASANT.toString();
+                } else if (comboBoxClass.getValue().equals(People.WARRIOR.toString())) {
+                    Class = People.WARRIOR.toString();
+                } else if (comboBoxClass.getValue().equals(People.KNIGHT.toString())) {
+                    Class = People.KNIGHT.toString();
                 }
                 if (!Class.equals("null") && !team.equals("null")) {
                     Main.createSoldier(name, age, team, Class, X, Y);

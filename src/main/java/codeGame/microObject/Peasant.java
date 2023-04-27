@@ -13,11 +13,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
-public class Peasant extends AbstractPeople implements Action
+import java.util.Comparator;
+
+public class Peasant extends AbstractPeople implements Action, Cloneable,
+        Comparable<Peasant>/*,Comparator<Peasant>*/
 {
     private int uniqueID = 1;
     private int HP = 100;
     private final double DAMAGE = 35;
+    protected People type = People.PEASANT;
     // LAB2
 /*    public Peasant() {System.out.println("Called basic constructor");}
     static{System.out.println("A static block was called");}
@@ -38,41 +42,17 @@ public class Peasant extends AbstractPeople implements Action
         setGroup();
         Main.group.getChildren().add(getGroup());
     }
+    public People getType(){return this.type;}
     public boolean getStatusDead(){return super.dead;}
     public ImageView getImageView(){return super.viewObject;}
-    public Group getGroup()
-    {
-        return super.group;
-    }
-    public int getHP()
-    {
-        return super.HP;
-    }
-    public double getDamage()
-    {
-        return super.DAMAGE;
-    }
-    public String getTeam()
-    {
-        return super.team;
-    }
-    public String getName()
-    {
-        return super.name;
-    }
-    public int getAge()
-    {
-        return super.age;
-    }
-    public double getX()
-    {
-        return super.x;
-    }
-    public double getY()
-    {
-        return super.y;
-    }
-
+    public Group getGroup() {return super.group;}
+    public int getHP() {return super.HP;}
+    public double getDamage() {return super.DAMAGE;}
+    public String getTeam() {return super.team;}
+    public String getName() {return super.name;}
+    public int getAge() {return super.age;}
+    public double getX() {return super.x;}
+    public double getY() {return super.y;}
     public void setHP()
     {
         String pathToHP = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\health.png";
@@ -94,11 +74,11 @@ public class Peasant extends AbstractPeople implements Action
     }
     public void setTeam(String team) {
         super.team = team;
-        if(team.equalsIgnoreCase("Red"))
+        if(team.equalsIgnoreCase(Team.RED.toString()))
         {
             imageObject = new Image(super.pathRED);
         }
-        else if(team.equalsIgnoreCase("Green"))
+        else if(team.equalsIgnoreCase(Team.GREEN.toString()))
         {
             imageObject = new Image(super.pathGREEN);
         }
@@ -157,6 +137,30 @@ public class Peasant extends AbstractPeople implements Action
     @Override
     public int hashCode(){return uniqueID;}
     @Override
+    public Peasant clone() throws CloneNotSupportedException
+    {
+        Peasant clone = (Peasant)super.clone();
+        String copyName = clone.getName() + " COPY ";
+        Main.createSoldier(copyName,String.valueOf(clone.getAge()),clone.getTeam(),
+                clone.getType().toString(),String.valueOf(clone.getX()),String.valueOf(clone.getY()));
+          return clone;
+    }
+
+    @Override
+    public int compareTo(Peasant p) {return this.age - p.age;} // По возросту
+/*    @Override
+    public int compare(Peasant first, Peasant second) // По возросту
+    {
+        if(first.getAge() > second.getAge()) {return 1;}
+        else if(first.getAge() < second.getAge()) {return -1;}
+        else {return 0;}
+    }*/
+    public static class PeopleNameComparator implements Comparator<Peasant> // Nesled class + comparator по имени
+    {
+        @Override
+        public int compare(Peasant first, Peasant second){return first.getName().compareTo(second.getName());}
+    }
+    @Override
     public void dead()
     {
         try {Movement.transitionsMap.get(this).stop();/*Movement.transitionsMap.remove(this);*/}
@@ -176,65 +180,26 @@ public class Peasant extends AbstractPeople implements Action
     public boolean attackUnit(double damage)
     {
         String pathToHP = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\health.png";
-         super.HP -= damage;
-         if(super.HP >= 301)
-         {
-             Main.group.getChildren().remove(super.group);
-             super.group.getChildren().remove(super.groupHP);
-             super.groupHP = new Group();
-             for(int i = 0,dX = 35; i < 4; i++,dX+=20) {
-                 super.healthView = new ImageView(new Image(pathToHP));
-                 super.healthView.setX(this.viewObject.getX() + dX);
-                 super.healthView.setY(this.viewObject.getY() - 25);
-                 super.groupHP.getChildren().addAll(super.healthView);
-             }
-             super.group.getChildren().add(super.groupHP);
-             Main.group.getChildren().add(super.group);
-         }
-         else if(super.HP >= 201)
-         {
-             super.group.getChildren().remove(super.groupHP);
-             Main.group.getChildren().remove(super.group);
-             super.groupHP = new Group();
-             for(int i = 0,dX = 35; i < 3; i++,dX+=20) {
-                 super.healthView = new ImageView(new Image(pathToHP));
-                 super.healthView.setX(this.viewObject.getX() + dX);
-                 super.healthView.setY(this.viewObject.getY() - 25);
-                 super.groupHP.getChildren().addAll(super.healthView);
-             }
-             super.group.getChildren().add(super.groupHP);
-             Main.group.getChildren().add(super.group);
-         }
-         else if(super.HP >= 101)
-         {
-             super.group.getChildren().remove(super.groupHP);
-             Main.group.getChildren().remove(super.group);
-             super.groupHP = new Group();
-             for(int i = 0,dX = 35; i < 2; i++,dX+=20) {
-                 super.healthView = new ImageView(new Image(pathToHP));
-                 super.healthView.setX(this.viewObject.getX() + dX);
-                 super.healthView.setY(this.viewObject.getY() - 25);
-                 super.groupHP.getChildren().addAll(super.healthView);
-             }
-             super.group.getChildren().add(super.groupHP);
-             Main.group.getChildren().add(super.group);
-         }
-         else if(super.HP > 0)
-         {
-             super.group.getChildren().remove(super.groupHP);
-             Main.group.getChildren().remove(super.group);
-             super.groupHP = new Group();
-             for(int i = 0,dX = 35; i < 1; i++,dX+=20) {
-                 super.healthView = new ImageView(new Image(pathToHP));
-                 super.healthView.setX(this.viewObject.getX() + dX);
-                 super.healthView.setY(this.viewObject.getY() - 25);
-                 super.groupHP.getChildren().addAll(super.healthView);
-             }
-             super.group.getChildren().add(super.groupHP);
-             Main.group.getChildren().add(super.group);
-         }
-         else if(super.HP <= 0) {dead(); return false;}
-         return true;
+        super.HP -= damage;
+        int i = 0;
+        if(super.HP >= 301) {i = 4;}
+        else if(super.HP >= 201) {i = 3;}
+        else if(super.HP >= 101) {i = 2;}
+        else if(super.HP > 0) {i = 1;}
+        else if(super.HP <= 0) {dead(); return false;}
+
+        Main.group.getChildren().remove(super.group);
+        super.group.getChildren().remove(super.groupHP);
+        super.groupHP = new Group();
+        for(int dX = 35; i > 0; i--,dX+=20) {
+            super.healthView = new ImageView(new Image(pathToHP));
+            super.healthView.setX(this.viewObject.getX() + dX);
+            super.healthView.setY(this.viewObject.getY() - 25);
+            super.groupHP.getChildren().addAll(super.healthView);
+        }
+        super.group.getChildren().add(super.groupHP);
+        Main.group.getChildren().add(super.group);
+        return true;
     }
     @Override
     public TranslateTransition walk()
@@ -378,28 +343,39 @@ public class Peasant extends AbstractPeople implements Action
 
     public static void returnToTheFortress()
     {
-        try {
-            for (var el : Main.armyRed) {
-                TranslateTransition transition = new TranslateTransition(Duration.seconds(1));
-                transition.setNode(el.getGroup());
-                transition.setByX(Math.floor(1155 - el.getX()));
-                transition.setByY(Math.floor(365 - el.getY()));
-                transition.setOnFinished(ev -> {el.getGroup().setVisible(false);});
-                el.setXY(1175, 365);
-                transition.play();
-            }
-            for (var el : Main.armyGreen) {
-                TranslateTransition transition1 = new TranslateTransition(Duration.seconds(1));
-                transition1.setNode(el.getGroup());
-                transition1.setByX(Math.floor(250 - el.getX()));
-                transition1.setByY(Math.floor(365 - el.getY()));
-                transition1.setOnFinished(ev -> {el.getGroup().setVisible(false);});
-                el.setXY(250, 365);
-                transition1.play();
+        Main.FORTRESS_RED.setInside();
+        Main.FORTRESS_GREEN.setInside();
+        if(!Main.FORTRESS_GREEN.getInside() && !Main.FORTRESS_RED.getInside()) {
+            interactionWithEachPeople.letGoPeople();
+            try {
+                for (var el : Main.armyRed) {
+                    TranslateTransition transition = new TranslateTransition(Duration.seconds(1));
+                    transition.setNode(el.getGroup());
+                    transition.setByX(Math.floor(2370 - el.getX()));
+                    transition.setByY(Math.floor(755 - el.getY()));
+                    transition.setOnFinished(ev -> {
+                        el.getGroup().setVisible(false);
+                        Main.FORTRESS_RED.insidePeople.add(el);
+                    });
+                    el.setXY(2370, 765);
+                    transition.play();
+                }
+                for (var el : Main.armyGreen) {
+                    TranslateTransition transition1 = new TranslateTransition(Duration.seconds(1));
+                    transition1.setNode(el.getGroup());
+                    transition1.setByX(Math.floor(320 - el.getX()));
+                    transition1.setByY(Math.floor(755 - el.getY()));
+                    transition1.setOnFinished(ev -> {
+                        el.getGroup().setVisible(false);
+                        Main.FORTRESS_GREEN.insidePeople.add(el);
+                    });
+                    el.setXY(320, 755);
+                    transition1.play();
+                }
+            } catch (Exception ex) {
+                System.out.println("For programmer: " + ex.getMessage());
             }
         }
-
-        catch(Exception ex){System.out.println("For programmer: " + ex.getMessage());}
     }
     @Override
     public void seizePoint() {}
@@ -429,5 +405,3 @@ public class Peasant extends AbstractPeople implements Action
         Main.group.getChildren().add(super.group);
     }
 }
-
-

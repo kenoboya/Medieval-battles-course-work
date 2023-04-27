@@ -1,6 +1,7 @@
 package codeGame.action;
 import codeGame.Main;
 import codeGame.microObject.Peasant;
+import codeGame.microObject.Team;
 import javafx.animation.TranslateTransition;
 import java.util.HashMap;
 
@@ -70,11 +71,11 @@ public class Movement
         {
             if(el.getStatusDead())
             {
-                if(el.getTeam().equalsIgnoreCase("RED"))
+                if(el.getTeam().equalsIgnoreCase(Team.RED.toString()))
                 {
                     Main.armyRed.remove(el);
                 }
-                else if(el.getTeam().equalsIgnoreCase("GREEN"))
+                else if(el.getTeam().equalsIgnoreCase(Team.GREEN.toString()))
                 {
                     Main.armyGreen.remove(el);
                 }

@@ -2,6 +2,8 @@ package codeGame.dialogs;
 
 import codeGame.Main;
 import codeGame.microObject.Peasant;
+import codeGame.microObject.People;
+import codeGame.microObject.Team;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,7 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 public class changePeopleParameterDialog
 {
-    public static void display(double x,double y)
+    public static void display()
     {
           Stage window = new Stage();
           window.initModality(Modality.APPLICATION_MODAL);
@@ -26,10 +28,10 @@ public class changePeopleParameterDialog
           ComboBox comboBox = new ComboBox();
           comboBox.getItems().addAll(Main.createEveryThingArmy());
           ComboBox comboBoxClass = new ComboBox();
-          comboBoxClass.getItems().addAll(Main.PEASANT,Main.WARRIOR,Main.KNIGHT);
+          comboBoxClass.getItems().addAll(People.PEASANT.toString(),People.WARRIOR.toString(),People.KNIGHT.toString());
 
-          RadioButton radioButtonRedTeam = new RadioButton("RED");
-          RadioButton radioButtonGreenTeam = new RadioButton("GREEN");
+          RadioButton radioButtonRedTeam = new RadioButton(Team.RED.toString());
+          RadioButton radioButtonGreenTeam = new RadioButton(Team.GREEN.toString());
           ToggleGroup group =  new ToggleGroup();
           radioButtonRedTeam.setToggleGroup(group);
           radioButtonGreenTeam.setToggleGroup(group);
@@ -61,13 +63,13 @@ public class changePeopleParameterDialog
                       index = Main.createEveryThingArmy().indexOf(comboBox.getValue());
                       Peasant object = Main.createEveryThingArmy().get(index);
                       if (comboBox.getValue() != null) {
-                            if (object.getTeam().equalsIgnoreCase("RED")) {
+                            if (object.getTeam().equalsIgnoreCase(Team.RED.toString())) {
                                   index = Main.armyRed.indexOf(comboBox.getValue());
                                   OX = Main.armyRed.get(index).getX();
                                   OY = Main.armyRed.get(index).getY();
                                   Main.group.getChildren().remove(Main.armyRed.get(index).getGroup());
                                   Main.armyRed.remove(comboBox.getValue());
-                            } else if (object.getTeam().equalsIgnoreCase("GREEN")) {
+                            } else if (object.getTeam().equalsIgnoreCase(Team.GREEN.toString())) {
                                   index = Main.armyGreen.indexOf(comboBox.getValue());
                                   OX = Main.armyGreen.get(index).getX();
                                   OY = Main.armyGreen.get(index).getY();
@@ -87,12 +89,12 @@ public class changePeopleParameterDialog
                                   team = radioButtonGreenTeam.getText();
                             }
 
-                            if (comboBoxClass.getValue().equals(Main.PEASANT)) {
-                                  Class = Main.PEASANT;
-                            } else if (comboBoxClass.getValue().equals(Main.WARRIOR)) {
-                                  Class = Main.WARRIOR;
-                            } else if (comboBoxClass.getValue().equals(Main.KNIGHT)) {
-                                  Class = Main.KNIGHT;
+                            if (comboBoxClass.getValue().equals(People.PEASANT.toString())) {
+                                  Class = People.PEASANT.toString();
+                            } else if (comboBoxClass.getValue().equals(People.WARRIOR.toString())) {
+                                  Class = People.WARRIOR.toString();
+                            } else if (comboBoxClass.getValue().equals(People.KNIGHT.toString())) {
+                                  Class = People.KNIGHT.toString();
                             }
                             if (!Class.equals("null") && !team.equals("null")) {
                                   Main.createSoldier(name, age, team, Class, X, Y);
