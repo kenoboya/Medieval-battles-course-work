@@ -2,17 +2,20 @@ package codeGame.action;
 
 import codeGame.Main;
 
+import java.io.IOException;
 public class moveStage
 {
-    private static final double sizeX = 1400;
-    private static final double sizeY = 800;
-    private static double userX_LEFT = 0 ,userY_LEFT = 0;
+    static final double sizeX = 1400;
+    static final double sizeY = 800;
+    static double userX_LEFT = 0 ,userY_LEFT = 0;
     static double userX_RIGHT = Main.scene.getWidth(),userY_RIGHT = Main.scene.getHeight();
     private static double delta = 100;
     public static void rightStage()
     {
-        System.out.println("RIGHT");
-        System.out.println(userX_LEFT + delta);
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "The screen has been moved to the right \n");}
+        catch(IOException ex){ex.getMessage();}
         if(sizeX >= userX_LEFT + delta) {
             Main.group.setLayoutX(Main.group.getLayoutX() - delta);
             userX_LEFT += delta;
@@ -21,8 +24,10 @@ public class moveStage
     }
     public static void leftStage()
     {
-        System.out.println("LEFT");
-        System.out.println(userX_LEFT - delta);
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "The screen has been moved to the left \n");}
+        catch(IOException ex){ex.getMessage();}
         if(Main.minX <= userX_LEFT - delta) {
             Main.group.setLayoutX(Main.group.getLayoutX() + delta);
             userX_LEFT -= delta;
@@ -31,8 +36,10 @@ public class moveStage
     }
     public static void upStage()
     {
-        System.out.println("UP");
-        System.out.println(userY_LEFT - delta);
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "The screen has been moved to the up \n");}
+        catch(IOException ex){ex.getMessage();}
         if(Main.minY <= userY_LEFT - delta) {
             Main.group.setLayoutY(Main.group.getLayoutY() + delta);
             userY_LEFT -= delta;
@@ -42,8 +49,10 @@ public class moveStage
 
     public static void downStage()
     {
-        System.out.println("DOWN");
-        System.out.println(userY_LEFT + delta);
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "The screen has been moved to the down \n");}
+        catch(IOException ex){ex.getMessage();}
         if(sizeY >= userY_LEFT + delta) {
             Main.group.setLayoutY(Main.group.getLayoutY() - delta);
             userY_LEFT += delta;

@@ -1,7 +1,7 @@
 package codeGame.macroObject;
 
 import codeGame.Main;
-import codeGame.dialogs.insideMacroObject;
+import codeGame.action.insideMacroObject;
 import codeGame.microObject.Peasant;
 import codeGame.microObject.Team;
 import javafx.scene.Group;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public final class Fortress
 {
+    protected Bulding type = Bulding.FORTRESS;
     public boolean inside = false;
     public ArrayList<Peasant> insidePeople = new ArrayList<>();
     private static final double DAMAGE = 30;
@@ -108,4 +109,5 @@ public final class Fortress
     {
         return inside;
     }
+    public Bulding getType(){return this.type;}
 }

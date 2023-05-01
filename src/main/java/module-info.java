@@ -12,4 +12,6 @@ module com.example.game {
     exports codeGame;
     exports codeGame.dialogs;
     opens codeGame.dialogs to javafx.fxml;
+    exports codeGame.action;
+    opens codeGame.action to javafx.fxml;
 }

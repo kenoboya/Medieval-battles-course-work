@@ -9,6 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.io.IOException;
+
+
 public class deletePeopleDialog
 {
     public static void display()
@@ -40,19 +43,27 @@ public class deletePeopleDialog
             int index;
             if(comboBoxFirst.getValue() != null) {
                 index = Main.armyRed.indexOf(comboBoxFirst.getValue());
+                try{
+                    Main.inLog.write("[" + Main.currentTime() + "] " +
+                        "The macro object has been removed to: " + Main.armyRed.get(index).getName() + "\n");}
+                catch(IOException ex){ex.getMessage();}
                 Main.group.getChildren().remove(Main.armyRed.get(index).getGroup());
                 Main.armyRed.remove(comboBoxFirst.getValue());
             }
             else if(comboBoxSecond.getValue() != null)
             {
                 index = Main.armyGreen.indexOf(comboBoxSecond.getValue());
+                try{
+                    Main.inLog.write("[" + Main.currentTime() + "] " +
+                        "The macro object has been removed to: " + Main.armyGreen.get(index).getName() + "\n");}
+                catch(IOException ex){ex.getMessage();}
                 Main.group.getChildren().remove(Main.armyGreen.get(index).getGroup());
                 Main.armyGreen.remove(comboBoxSecond.getValue());
             }
             window.close();
         });
         Button cancelButton = new Button("Cancel");
-        cancelButton.setOnAction((element) -> {window.close();});
+        cancelButton.setOnAction((element) -> window.close());
         layout.getChildren().addAll(redLabel,comboBoxFirst,greenLabel,comboBoxSecond,deleteButton,cancelButton);
         Scene scene = new Scene(layout);
         window.setScene(scene);

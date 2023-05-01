@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 public class Knight extends Warrior
 {
     private int chance; // Рандомное число.
-
     private int HP = 500;
     private final double DAMAGE = 100;
     protected People type = People.KNIGHT;

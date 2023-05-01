@@ -1,18 +1,20 @@
 package codeGame.action;
 import codeGame.Main;
-import codeGame.dialogs.insideMacroObject;
 import codeGame.microObject.Peasant;
 import codeGame.microObject.Team;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class interactionWithEachPeople
 {
+    private static HashMap<ImageView, Peasant> mapPeople = new HashMap<>();
+    static ArrayList <Peasant> selected = new ArrayList<>();
+    public static Peasant elementAfterInsideMacro;
     public static void selectedPeopleMoveUP() {
         for(var el : selected) {
             if (selected != null) {
@@ -26,6 +28,10 @@ public class interactionWithEachPeople
                 transition.play();
             }
         }
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "Selected micro-objects have been moved to the up \n");}
+        catch(IOException exc){exc.getMessage();}
     }
     public static void selectedPeopleMoveLEFT()
     {
@@ -41,6 +47,10 @@ public class interactionWithEachPeople
                 transition.play();
             }
         }
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "Selected micro-objects have been moved to the left \n");}
+        catch(IOException exc){exc.getMessage();}
     }
     public static void selectedPeopleMoveRIGHT()
     {
@@ -56,6 +66,10 @@ public class interactionWithEachPeople
                 transition.play();
             }
         }
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "Selected micro-objects have been moved to the right \n");}
+        catch(IOException exc){exc.getMessage();}
     }
     public static void selectedPeopleMoveDOWN()
     {
@@ -71,6 +85,10 @@ public class interactionWithEachPeople
                 transition.play();
             }
         }
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "Selected micro-objects have been moved to the down \n");}
+        catch(IOException exc){exc.getMessage();}
     }
     public static void letGoPeople()
     {
@@ -81,9 +99,11 @@ public class interactionWithEachPeople
             dontActive.add(el);
         }
         selected.removeAll(dontActive);
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "Selected micro-objects were released \n");}
+        catch(IOException exc){exc.getMessage();}
     }
-    private static HashMap<ImageView, Peasant> mapPeople = new HashMap<>();
-    private static ArrayList <Peasant> selected = new ArrayList<>();
     private static HashMap<ImageView,Peasant> fillMap ()
     {
           for(var el: Main.createEveryThingArmy())
@@ -92,7 +112,6 @@ public class interactionWithEachPeople
           }
           return mapPeople;
     }
-    public static Peasant elementAfterInsideMacro;
     private static EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
@@ -114,13 +133,13 @@ public class interactionWithEachPeople
                 }
                 people.takePeople();
                 selected.add(people);
+                try{
+                    Main.inLog.write("[" + Main.currentTime() + "] " +
+                        "The micro-object was chosen to: " + people.getName() + "\n");}
+                catch(IOException exc){exc.getMessage();}
             }
         }
     };
-    public static EventHandler<MouseEvent> getHandler()
-    {
-        return handler;
-    }
     public static void clear()
     {
         for(var el : selected)
@@ -138,6 +157,10 @@ public class interactionWithEachPeople
                 el = null;
         }
         selected.removeAll(selected);
+        try{
+            Main.inLog.write("[" + Main.currentTime() + "] " +
+                "All selected micro-objects have been removed \n");}
+        catch(IOException exc){exc.getMessage();}
     }
     public static void clonePeople()
     {
@@ -147,4 +170,9 @@ public class interactionWithEachPeople
             catch (CloneNotSupportedException e) {throw new RuntimeException(e);}
         }
     }
+    public static EventHandler<MouseEvent> getHandler()
+    {
+        return handler;
+    }
+    public static ArrayList<Peasant> getSelected(){return selected;}
 }

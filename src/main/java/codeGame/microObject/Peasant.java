@@ -12,13 +12,13 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
-
+import java.io.IOException;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class Peasant extends AbstractPeople implements Action, Cloneable,
         Comparable<Peasant>/*,Comparator<Peasant>*/
 {
-    private int uniqueID = 1;
     private int HP = 100;
     private final double DAMAGE = 35;
     protected People type = People.PEASANT;
@@ -34,13 +34,12 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
         setName(name);
         setPath();
         setTeam(team);
-        uniqueID++;
         setDAMAGE(this.DAMAGE);
         setHP(this.HP);
         setHP();
         setImageView();
         setGroup();
-        Main.group.getChildren().add(getGroup());
+        addGroup();
     }
     public People getType(){return this.type;}
     public boolean getStatusDead(){return super.dead;}
@@ -135,7 +134,7 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
             return false;
     }
     @Override
-    public int hashCode(){return uniqueID;}
+    public int hashCode() {return Objects.hash(name,age,HP, DAMAGE, type);}
     @Override
     public Peasant clone() throws CloneNotSupportedException
     {
@@ -155,24 +154,50 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
         else if(first.getAge() < second.getAge()) {return -1;}
         else {return 0;}
     }*/
-    public static class PeopleNameComparator implements Comparator<Peasant> // Nesled class + comparator по имени
+    public static class PeopleNameComparator implements Comparator<Peasant>
     {
         @Override
         public int compare(Peasant first, Peasant second){return first.getName().compareTo(second.getName());}
     }
+    public static class PeopleAgeComparator implements Comparator<Peasant>
+    {
+        @Override
+        public int compare(Peasant first, Peasant second)
+        { if(first.getAge()> second.getAge()) return 1;
+        else if(first.getAge()< second.getAge()) return -1;
+        else return 0;}
+    }
+    public static class PeopleHPComparator implements Comparator<Peasant>
+    {
+        @Override
+        public int compare(Peasant first, Peasant second)
+        { if(first.getHP()> second.getHP()) return 1;
+        else if(first.getHP()< second.getHP()) return -1;
+        else return 0;}
+    }
+    public static class PeopleDamageComparator implements Comparator<Peasant>
+    {
+        @Override
+        public int compare(Peasant first, Peasant second)
+        { if(first.getDamage()> second.getDamage()) return 1;
+        else if(first.getDamage()< second.getDamage()) return -1;
+        else return 0;}
+    }
+    private void removeGroup() {Main.group.getChildren().remove(super.group);}
+    private void addGroup() {Main.group.getChildren().add(super.group);}
     @Override
     public void dead()
     {
         try {Movement.transitionsMap.get(this).stop();/*Movement.transitionsMap.remove(this);*/}
         catch(Exception ex){};
-        Main.group.getChildren().remove(super.group);
+        removeGroup();
         super.pathRED = super.pathGREEN = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\coffin.png";
         setTeam(super.team);
         setName(super.name);
         setImageView();
         super.group = new Group();
         super.group.getChildren().addAll(super.label,super.viewObject);
-        Main.group.getChildren().addAll(super.group);
+        addGroup();
         super.dead = true;
     }
 
@@ -188,7 +213,7 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
         else if(super.HP > 0) {i = 1;}
         else if(super.HP <= 0) {dead(); return false;}
 
-        Main.group.getChildren().remove(super.group);
+        removeGroup();
         super.group.getChildren().remove(super.groupHP);
         super.groupHP = new Group();
         for(int dX = 35; i > 0; i--,dX+=20) {
@@ -198,149 +223,107 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
             super.groupHP.getChildren().addAll(super.healthView);
         }
         super.group.getChildren().add(super.groupHP);
-        Main.group.getChildren().add(super.group);
+        addGroup();
         return true;
     }
-    @Override
-    public TranslateTransition walk()
+    private void onceWalk(TranslateTransition transition)
     {
-        TranslateTransition transition = new TranslateTransition(Duration.millis(250));
-        double randomDiraction =  Math.floor(1 + Math.random() * 4);
-        double newX = getX(),newY = getY(),moveX = 0,moveY = 0;
+        double randomDiraction = Math.floor(1 + Math.random() * 4);
+        double newX = getX(), newY = getY(), moveX = 0, moveY = 0;
         boolean collision = false;
-        transition.setNode(getGroup());
-        switch((int)randomDiraction)
-        {
+        switch ((int) randomDiraction) {
             // RIGHT
-            case 1: newX = getX() + 25;
+            case 1:
+                newX = getX() + 25;
                 moveX = 25;
                 break;
             // LEFT
-            case 2: newX = getX() - 25;
-                moveX = - 25;
+            case 2:
+                newX = getX() - 25;
+                moveX = -25;
                 break;
             // UP
-            case 3: newY = getY() - 25;
-                moveY = - 25;
+            case 3:
+                newY = getY() - 25;
+                moveY = -25;
                 break;
             // DOWN
-            case 4: newY = getY() + 25;
+            case 4:
+                newY = getY() + 25;
                 moveY = 25;
                 break;
         }
-        if(Main.minX <= newX && Main.minY <= newY && Main.sizeX >= newX && Main.sizeY >= newY) {
-            for(var el : Main.createEveryThingArmy())
-            {
-                if(!this.equals(el)) {
+        if (Main.minX <= newX && Main.minY <= newY && Main.sizeX >= newX && Main.sizeY >= newY) {
+            for (var el : Main.createEveryThingArmy()) {
+                if (!this.equals(el)) {
                     if (el.getX() <= newX && el.getY() <= newY) {
                         if (el.getX() + 125 > newX && el.getY() + 175 > newY) {
                             collision = true;
                         }
-                    }
-                    else if (el.getX() >= newX && el.getY() >= newY) {
+                    } else if (el.getX() >= newX && el.getY() >= newY) {
                         if (el.getX() - 125 < newX && el.getY() - 175 < newY) {
                             collision = true;
                         }
                     }
                 }
             }
-            if(!collision) {
+            if (!collision) {
                 transition.setByX(moveX);
                 transition.setByY(moveY);
-                setXY(newX,newY);
+                setXY(newX, newY);
+
+                for (var el : Main.createEveryThingArmy()) {
+
+                    if (!(el.getTeam().equalsIgnoreCase(this.team))) {
+                        if (el.getX() <= this.getX() && el.getY() <= this.getY()) {
+                            if (el.getX() + 150 > this.getX() && el.getY() + 200 > this.getY()) {
+                                if (!((el.dead || this.dead) || (el.dead && this.dead))) {
+                                    el.attackUnit(this.DAMAGE);
+                                    attackUnit(el.DAMAGE);
+                                }
+                            }
+                        } else if (el.getX() >= this.getX() && el.getY() >= this.getY()) {
+                            if (el.getX() - 150 < this.getX() && el.getY() - 200 < this.getY()) {
+                                if (!((el.dead || this.dead) || (el.dead && this.dead))) {
+                                    el.attackUnit(this.DAMAGE);
+                                    attackUnit(el.DAMAGE);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                transition.setByX(0.0);
+                transition.setByY(0.0);
+                System.out.println("COLLISION");
             }
-            else {transition.setByX(0); transition.setByY(0); System.out.println("COLLISION");}
+        } else {
+            transition.setByX(0.0);
+            transition.setByY(0.0);
+            System.out.println("BORDER");
         }
-        else { transition.setByX(0); transition.setByY(0); System.out.println("BORDER");}
-
-        transition.setOnFinished(e -> {
-            transition.setNode(getGroup());
-
-            // Почему все переменные лямбда?
-            // Я бы с большим удовольствием сделал бы переменные статическими
-            // Но по условию курсовой работы, методы должны быть в классе.
-            // А создать в классе эти переменные не сильно хотелось.
-            // Было принято решение немного написать плохой код.
-
-            double randomDiraction_LAMBDA = Math.floor(1 + Math.random() * 4);
-            double newX_LAMBDA = getX(),newY_LAMBDA = getY(),moveX_LAMBDA = 0,moveY_LAMBDA = 0;
-            boolean collision_LAMBDA = false;
-            switch((int)randomDiraction_LAMBDA)
-            {
-                // RIGHT
-                case 1: newX_LAMBDA = getX() + 25;
-                    moveX_LAMBDA = 25;
-                    break;
-                // LEFT
-                case 2: newX_LAMBDA = getX() - 25;
-                    moveX_LAMBDA = - 25;
-                    break;
-                // UP
-                case 3: newY_LAMBDA = getY() - 25;
-                    moveY_LAMBDA = - 25;
-                    break;
-                // DOWN
-                case 4: newY_LAMBDA = getY() + 25;
-                    moveY_LAMBDA = 25;
-                    break;
-            }
-            if(Main.minX <= newX_LAMBDA && Main.minY <= newY_LAMBDA && Main.sizeX >= newX_LAMBDA && Main.sizeY >= newY_LAMBDA) {
-                for(var el : Main.createEveryThingArmy())
-                {
-                    if(!this.equals(el)) {
-                        if (el.getX() <= newX_LAMBDA && el.getY() <= newY_LAMBDA) {
-                            if (el.getX() + 125 > newX_LAMBDA && el.getY() + 175 > newY_LAMBDA) {
-                                collision_LAMBDA = true;
-                            }
-                        }
-                        else if (el.getX() >= newX_LAMBDA && el.getY() >= newY_LAMBDA) {
-                            if (el.getX() - 125 < newX_LAMBDA && el.getY() - 175 < newY_LAMBDA) {
-                                collision_LAMBDA = true;
-                            }
-                        }
-                    }
-                }
-                if(!collision_LAMBDA) {
-                    transition.setByX(moveX_LAMBDA);
-                    transition.setByY(moveY_LAMBDA);
-                    setXY(newX_LAMBDA,newY_LAMBDA);
-
-                    for(var el : Main.createEveryThingArmy())
-                    {
-
-                            if (!(el.getTeam().equalsIgnoreCase(this.team)))
-                            {
-                                if (el.getX() <= this.getX() && el.getY() <= this.getY()) {
-                                    if (el.getX() + 150 > this.getX() && el.getY() + 200 > this.getY()) {
-                                        if (!((el.dead || this.dead) || (el.dead && this.dead))) {
-                                            el.attackUnit(this.DAMAGE);
-                                            attackUnit(el.DAMAGE);
-                                        }
-                                    }
-                                }
-                                else if (el.getX() >= this.getX() && el.getY() >= this.getY()) {
-                                    if (el.getX() - 150 < this.getX() && el.getY() - 200 < this.getY()) {
-                                        if (!((el.dead || this.dead) || (el.dead && this.dead))) {
-                                            el.attackUnit(this.DAMAGE);
-                                            attackUnit(el.DAMAGE);
-                                        }
-                                    }
-                                }
-                            }
-                    }
-                }
-                else {transition.setByX(0.0); transition.setByY(0.0);System.out.println("COLLISION");}
-            }
-            else {transition.setByX(0.0); transition.setByY(0.0); System.out.println("BORDER");}
-           if(!this.getStatusDead()) {transition.playFromStart();}
-        });
-        return transition;
-
+        if (!this.getStatusDead()) {
+            transition.playFromStart();
+        }
+    }
+    @Override
+    public TranslateTransition walk()
+    {
+        if(!Main.FORTRESS_RED.insidePeople.contains(this)
+                || !Main.FORTRESS_GREEN.insidePeople.contains(this)) {
+            TranslateTransition transition = new TranslateTransition(Duration.millis(250));
+            onceWalk(transition);
+            transition.setOnFinished(e -> {
+                transition.setNode(getGroup());
+                onceWalk(transition);
+            });
+            return transition;
+        }
+        return null;
     }
     public static void stand() {Movement.stopWalk();}
 
     public static void walkAgain() {Movement.againWalk();}
-
     public static void returnToTheFortress()
     {
         Main.FORTRESS_RED.setInside();
@@ -372,6 +355,10 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
                     el.setXY(320, 755);
                     transition1.play();
                 }
+                try{
+                    Main.inLog.write("[" + Main.currentTime() + "] " +
+                        "All micro-objects were sent to their castles \n");}
+                catch(IOException exc){exc.getMessage();}
             } catch (Exception ex) {
                 System.out.println("For programmer: " + ex.getMessage());
             }
@@ -391,17 +378,17 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
         super.lineRectangle.setHeight(230);
         super.lineRectangle.setWidth(165);
         try {
-            Main.group.getChildren().remove(super.group);
+            removeGroup();
             super.group.getChildren().add(super.lineRectangle);
-            Main.group.getChildren().add(super.group);
+            addGroup();
         }
         catch(Exception ex) {System.out.println("For programmer: " + ex.getMessage());}
     }
     @Override
     public void letGoPeople()
     {
-        Main.group.getChildren().remove(super.group);
+        removeGroup();
         super.group.getChildren().remove(super.lineRectangle);
-        Main.group.getChildren().add(super.group);
+        addGroup();
     }
 }

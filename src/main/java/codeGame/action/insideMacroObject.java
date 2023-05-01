@@ -1,7 +1,6 @@
-package codeGame.dialogs;
+package codeGame.action;
 
 import codeGame.Main;
-import codeGame.action.interactionWithEachPeople;
 import codeGame.macroObject.Fortress;
 import codeGame.microObject.Peasant;
 import codeGame.microObject.Team;
@@ -16,15 +15,15 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.util.HashMap;
 import java.util.stream.Stream;
 
 public class insideMacroObject
 {
-    private static String pathBackground = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\fortressInside.jpg";
+    private static String pathBackground =
+            "D:\\project\\game\\src\\main\\java\\codeGame\\image\\fortressInside.jpg";
     public static Stage window;
-    private static double  xRED = 2370, xGREEN = 320, y = 755, row = 0, col = 0;
+    private static double  xRED = 2370, xGREEN = 320, y = 755;
     public static void display(Fortress fortress)
     {
         window = new Stage();
@@ -34,31 +33,23 @@ public class insideMacroObject
         window.setMaxWidth(1200);
         window.setMaxHeight(600);
         Pane layoutMain = new Pane();
+
+        layoutMain.setMaxWidth(800);
+        layoutMain.setMaxHeight(550);
+
         FlowPane layout  = new FlowPane();
         layout.setVgap(8);
         layout.setHgap(15);
         layout.setAlignment(Pos.TOP_LEFT);
         layout.setOrientation(Orientation.VERTICAL);
+        layout.setPrefWrapLength(800);
         ImageView mapView = new ImageView(new Image(pathBackground));
         layoutMain.getChildren().add(mapView);
         if(fortress.getTeam().equalsIgnoreCase(Team.RED.toString()))
         {
             try {
                 Stream<Peasant> streamRed = Main.FORTRESS_RED.insidePeople.stream();
-                streamRed.forEach(el ->
-                {
-                    if (row <= 1050) // 0 150 300 450 600 750 900 1050 - 8 мест на столбец
-                    {
-                        el.getGroup().setVisible(true);
-                        el.getGroup().setTranslateX(row);
-                        el.getGroup().setTranslateY(col);
-                        layout.getChildren().addAll(el.getGroup());
-                        row += 150;
-                    } else if (col <= 450) {
-                        col += 150;
-                        row = 0;
-                    }
-                });
+                streamRed.forEach(el -> setTranslateZero(el,layout));
             }
             catch (Exception ex){}
         }
@@ -66,25 +57,7 @@ public class insideMacroObject
         {
             try {
                 Stream<Peasant> streamGreen = Main.FORTRESS_GREEN.insidePeople.stream();
-                streamGreen.forEach(el ->
-                {
-                    if (row <= 1050) // 0 150 300 450 600 750 900 1050 - 8 мест на столбец
-                    {
-                        el.getGroup().setVisible(true);
-                        el.getGroup().setTranslateX(row);
-                        el.getGroup().setTranslateY(col);
-                        el.getGroup().setLayoutX(0);
-                        el.getGroup().setLayoutY(0);
-                   /*     el.getImageView().setX(row);
-                        el.getImageView().setY(col);*/
-                        layout.getChildren().addAll(el.getGroup());
-                        row += 150;
-                    } else if (col <= 450) // 0,150,300,450 - 4 колонки
-                    {
-                        col += 150;
-                        row = 0;
-                    }
-                });
+                streamGreen.forEach(el -> setTranslateZero(el,layout));
             }
             catch(Exception ex){}
         }
@@ -92,7 +65,6 @@ public class insideMacroObject
         layout.setMaxWidth(1200);
         layout.setMaxHeight(600);
         Scene scene = new Scene(layoutMain);
-        /*scene.setFill(Color.DARKGRAY);*/
         window.setScene(scene);
         window.showAndWait();
     }
@@ -115,13 +87,13 @@ public class insideMacroObject
                 {
                     if(el.equals(interactionWithEachPeople.elementAfterInsideMacro)) {
                        if(el.getTeam().equals(Team.RED.toString())) {
-                           el.setXY(xRED, y);
-                           el.getGroup().setTranslateX(xRED);
+                           el.setXY(xRED - 200, y);
+                           el.getGroup().setTranslateX(xRED - 200);
                        }
                        else if(el.getTeam().equals(Team.GREEN.toString()))
                        {
-                           el.setXY(xGREEN, y);
-                           el.getGroup().setTranslateX(xGREEN);
+                           el.setXY(xGREEN - 200, y);
+                           el.getGroup().setTranslateX(xGREEN - 200);
                        }
                         el.getGroup().setTranslateY(y);
                         interactionWithEachPeople.elementAfterInsideMacro = null;
@@ -133,5 +105,12 @@ public class insideMacroObject
     public static EventHandler<MouseEvent> getHandler()
     {
         return handler;
+    }
+    private static void setTranslateZero(Peasant el,FlowPane layout)
+    {
+        el.getGroup().setVisible(true);
+        el.getGroup().setTranslateX(0);
+        el.getGroup().setTranslateY(0);
+        layout.getChildren().addAll(el.getGroup());
     }
 }

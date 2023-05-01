@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.io.IOException;
 public class changePeopleParameterDialog
 {
     public static void display()
@@ -28,11 +29,12 @@ public class changePeopleParameterDialog
           ComboBox comboBox = new ComboBox();
           comboBox.getItems().addAll(Main.createEveryThingArmy());
           ComboBox comboBoxClass = new ComboBox();
-          comboBoxClass.getItems().addAll(People.PEASANT.toString(),People.WARRIOR.toString(),People.KNIGHT.toString());
+          comboBoxClass.getItems().addAll(People.PEASANT.toString(),People.WARRIOR.toString(),
+                  People.KNIGHT.toString());
 
           RadioButton radioButtonRedTeam = new RadioButton(Team.RED.toString());
           RadioButton radioButtonGreenTeam = new RadioButton(Team.GREEN.toString());
-          ToggleGroup group =  new ToggleGroup();
+          ToggleGroup group = new ToggleGroup();
           radioButtonRedTeam.setToggleGroup(group);
           radioButtonGreenTeam.setToggleGroup(group);
 
@@ -97,22 +99,30 @@ public class changePeopleParameterDialog
                                   Class = People.KNIGHT.toString();
                             }
                             if (!Class.equals("null") && !team.equals("null")) {
+                                  try{
+                                        Main.inLog.write("[" + Main.currentTime() + "] " +
+                                          "The micro object has been changed to a new name: " + name + "\n");}
+                                  catch(IOException ex){ex.getMessage();}
                                   Main.createSoldier(name, age, team, Class, X, Y);
                             }
                       }
                 }
                 catch(Exception ex)
                 {
+                      try{
+                            Main.inLog.write("[" + Main.currentTime() + "] " +
+                              "The user dont enter information about People \n");}
+                      catch(IOException exc){exc.getMessage();}
                       System.out.println("For programmer: " + ex.getMessage());
-                      System.out.println("For user: " + "The user dont enter information about People");
                 }
                 finally{window.close();}
           });
           Button cancelButton = new Button("Cancel");
-          cancelButton.setOnAction((element) -> {window.close();});
+          cancelButton.setOnAction((element) -> window.close());
           layout.getChildren()
                   .addAll(nameLabel,nameText,ageLabel,ageText,teamLabel,
-                          radioButtonRedTeam,radioButtonGreenTeam,classLabel,comboBoxClass,changeLabel,comboBox,changeButton,cancelButton);
+                          radioButtonRedTeam,radioButtonGreenTeam,classLabel,
+                          comboBoxClass,changeLabel,comboBox,changeButton,cancelButton);
           Scene scene = new Scene(layout);
           window.setScene(scene);
           window.showAndWait();

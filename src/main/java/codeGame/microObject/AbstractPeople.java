@@ -8,20 +8,15 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class AbstractPeople
 {
-    ImageView healthView;
-    int HP;
-    Group group;
-    Group groupHP;
-    Image imageObject;
-    ImageView viewObject;
+    int HP,age;
     double DAMAGE;
-    String team;
-    Label label;
-    String name;
-    int age;
     volatile double  x,y;
-    String pathRED;
-    String pathGREEN;
-    Rectangle lineRectangle = new Rectangle();
     boolean dead;
+    ImageView viewObject,healthView;
+    Image imageObject;
+    Group group, groupHP;
+    String team,name;
+    String pathRED,pathGREEN;
+    Label label;
+    Rectangle lineRectangle = new Rectangle();
 }
