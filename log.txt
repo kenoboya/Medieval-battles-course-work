@@ -1,0 +1,85 @@
+[01-05-2023 09:15:07] A macro object has been created to: RED FORTRESS
+[01-05-2023 09:15:07] A macro object has been created to: GREEN FORTRESS
+[01-05-2023 09:15:07] A macro object has been created to: First house
+[01-05-2023 09:15:07] A macro object has been created to: Second house
+[01-05-2023 09:15:07] A macro object has been created to: Third house
+[01-05-2023 09:15:07] A macro object has been created to: Fourth house
+[01-05-2023 09:15:07] A macro object has been created to: Fifth house
+[01-05-2023 09:15:07] A macro object has been created to: First mine
+[01-05-2023 09:15:07] A macro object has been created to: Second mine
+[01-05-2023 09:15:07] A macro object has been created to: Third mine
+[01-05-2023 09:15:08] A micro object has been created to: Max
+[01-05-2023 09:15:08] A micro object has been created to: Danila
+[01-05-2023 09:15:08] A micro object has been created to: San
+[01-05-2023 09:15:08] A micro object has been created to: Dan
+[01-05-2023 09:15:08] A micro object has been created to: Arthur
+[01-05-2023 09:15:08] A micro object has been created to: Zaur
+[01-05-2023 09:15:08] A micro object has been created to: Ragnar
+[01-05-2023 09:15:08] A micro object has been created to: Rollo
+[01-05-2023 09:15:08] A micro object has been created to: Diego
+[01-05-2023 09:15:08] A micro object has been created to: Alberto
+[01-05-2023 09:15:08] A micro object has been created to: Fabrio
+[01-05-2023 09:15:08] A micro object has been created to: Hans
+[01-05-2023 09:15:08] A micro object has been created to: Bogdan
+[01-05-2023 09:15:08] A micro object has been created to: Erjan
+[01-05-2023 09:15:08] A micro object has been created to: Bjorn
+[01-05-2023 09:15:08] A micro object has been created to: Oleg
+[01-05-2023 09:15:24] The micro-object was chosen to: Arthur
+[01-05-2023 09:15:25] A micro object has been created to: Arthur COPY 
+[01-05-2023 09:15:26] The screen has been moved to the right 
+[01-05-2023 09:15:26] The screen has been moved to the right 
+[01-05-2023 09:15:27] Selected micro-objects have been moved to the right 
+[01-05-2023 09:15:27] Selected micro-objects have been moved to the right 
+[01-05-2023 09:15:27] Selected micro-objects have been moved to the right 
+[01-05-2023 09:15:27] Selected micro-objects have been moved to the right 
+[01-05-2023 09:15:28] Selected micro-objects have been moved to the right 
+[01-05-2023 09:15:28] Selected micro-objects have been moved to the right 
+[01-05-2023 09:15:28] Selected micro-objects were released 
+[01-05-2023 09:15:53] The micro object has been changed to a new name: Parametr
+[01-05-2023 09:15:53] A micro object has been created to: Parametr
+[01-05-2023 09:16:08] A list of objects that belong to macro objects was received 
+[01-05-2023 09:16:11] A list of objects was received that does not belong to macro objects 
+[01-05-2023 09:16:24] A list of objects was received that does not belong to macro objects 
+[01-05-2023 09:16:27] The screen has been moved to the down 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:28] The screen has been moved to the right 
+[01-05-2023 09:16:29] The screen has been moved to the right 
+[01-05-2023 09:16:29] The screen has been moved to the right 
+[01-05-2023 09:16:29] The screen has been moved to the right 
+[01-05-2023 09:16:29] The screen has been moved to the down 
+[01-05-2023 09:16:29] The screen has been moved to the down 
+[01-05-2023 09:16:29] The screen has been moved to the down 
+[01-05-2023 09:16:29] The screen has been moved to the down 
+[01-05-2023 09:16:30] The screen has been moved to the down 
+[01-05-2023 09:16:30] The screen has been moved to the down 
+[01-05-2023 09:16:30] The screen has been moved to the down 
+[01-05-2023 09:16:30] The screen has been moved to the down 
+[01-05-2023 09:16:52] The search for a micro-object was started to: Parametr
+[01-05-2023 09:16:56] Selected micro-objects were released 
+[01-05-2023 09:17:01] The screen has been moved to the down 
+[01-05-2023 09:17:02] The screen has been moved to the right 
+[01-05-2023 09:17:02] The screen has been moved to the right 
+[01-05-2023 09:17:02] The screen has been moved to the right 
+[01-05-2023 09:17:03] The screen has been moved to the down 
+[01-05-2023 09:17:03] Selected micro-objects were released 
+[01-05-2023 09:17:03] All micro-objects were sent to their castles 
+[01-05-2023 09:17:04] The screen has been moved to the down 
+[01-05-2023 09:17:04] The screen has been moved to the left 
+[01-05-2023 09:17:04] The screen has been moved to the left 
+[01-05-2023 09:17:05] The screen has been moved to the up 
+[01-05-2023 09:17:06] A list of objects was received that does not belong to macro objects 
+[01-05-2023 09:17:09] A list of objects that belong to macro objects was received 
+[01-05-2023 09:17:20] The micro-object was chosen to: Rollo
+[01-05-2023 09:17:21] Selected micro-objects have been moved to the right 
+[01-05-2023 09:17:21] Selected micro-objects have been moved
