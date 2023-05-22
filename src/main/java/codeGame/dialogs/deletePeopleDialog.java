@@ -1,5 +1,6 @@
 package codeGame.dialogs;
 
+import codeGame.Initialization;
 import codeGame.Main;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,8 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
-
 
 public class deletePeopleDialog
 {
@@ -43,20 +42,14 @@ public class deletePeopleDialog
             int index;
             if(comboBoxFirst.getValue() != null) {
                 index = Main.armyRed.indexOf(comboBoxFirst.getValue());
-                try{
-                    Main.inLog.write("[" + Main.currentTime() + "] " +
-                        "The macro object has been removed to: " + Main.armyRed.get(index).getName() + "\n");}
-                catch(IOException ex){ex.getMessage();}
+                Initialization.writeToFile("The macro object has been removed to: " + Main.armyRed.get(index).getName());
                 Main.group.getChildren().remove(Main.armyRed.get(index).getGroup());
                 Main.armyRed.remove(comboBoxFirst.getValue());
             }
             else if(comboBoxSecond.getValue() != null)
             {
                 index = Main.armyGreen.indexOf(comboBoxSecond.getValue());
-                try{
-                    Main.inLog.write("[" + Main.currentTime() + "] " +
-                        "The macro object has been removed to: " + Main.armyGreen.get(index).getName() + "\n");}
-                catch(IOException ex){ex.getMessage();}
+                Initialization.writeToFile("The macro object has been removed to: " + Main.armyGreen.get(index).getName());
                 Main.group.getChildren().remove(Main.armyGreen.get(index).getGroup());
                 Main.armyGreen.remove(comboBoxSecond.getValue());
             }

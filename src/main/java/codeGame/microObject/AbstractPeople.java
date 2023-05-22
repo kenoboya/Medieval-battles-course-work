@@ -1,5 +1,6 @@
 package codeGame.microObject;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,4 +20,9 @@ public abstract class AbstractPeople
     String pathRED,pathGREEN;
     Label label;
     Rectangle lineRectangle = new Rectangle();
+    abstract public void dead();
+    abstract public boolean attackUnit(double damage);
+    abstract public TranslateTransition walk();
+    abstract public void takePeople();
+    abstract public void letGoPeople();
 }

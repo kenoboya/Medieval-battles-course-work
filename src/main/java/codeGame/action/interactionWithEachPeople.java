@@ -1,12 +1,12 @@
 package codeGame.action;
+import codeGame.Initialization;
 import codeGame.Main;
-import codeGame.microObject.Peasant;
-import codeGame.microObject.Team;
+import codeGame.microObject.*;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import java.io.IOException;
+import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,77 +18,65 @@ public class interactionWithEachPeople
     public static void selectedPeopleMoveUP() {
         for(var el : selected) {
             if (selected != null) {
-                TranslateTransition transition = new TranslateTransition();
+                TranslateTransition transition = new TranslateTransition(Duration.millis(1));
                 transition.setNode(el.getGroup());
-                double newY = el.getY() - 60;
+                double newY = el.getY() - 10;
                 if (Main.sizeY >= newY && newY >= Main.minY) {
-                    transition.setByY(-60);
+                    transition.setByY(-10);
                     el.setXY(el.getX(), newY);
                 }
                 transition.play();
             }
         }
-        try{
-            Main.inLog.write("[" + Main.currentTime() + "] " +
-                "Selected micro-objects have been moved to the up \n");}
-        catch(IOException exc){exc.getMessage();}
+        Initialization.writeToFile("Selected micro-objects have been moved to the up ");
     }
     public static void selectedPeopleMoveLEFT()
     {
         for(var el : selected) {
             if (el != null) {
-                TranslateTransition transition = new TranslateTransition();
+                TranslateTransition transition = new TranslateTransition(Duration.millis(1));
                 transition.setNode(el.getGroup());
-                double newX = el.getX() - 60;
+                double newX = el.getX() - 10;
                 if (Main.sizeX >= newX && newX >= Main.minX) {
-                    transition.setByX(-60);
+                    transition.setByX(-10);
                     el.setXY(newX, el.getY());
                 }
                 transition.play();
             }
         }
-        try{
-            Main.inLog.write("[" + Main.currentTime() + "] " +
-                "Selected micro-objects have been moved to the left \n");}
-        catch(IOException exc){exc.getMessage();}
+        Initialization.writeToFile("Selected micro-objects have been moved to the left ");
     }
     public static void selectedPeopleMoveRIGHT()
     {
         for(var el : selected) {
             if (el != null) {
-                TranslateTransition transition = new TranslateTransition();
+                TranslateTransition transition = new TranslateTransition(Duration.millis(1));
                 transition.setNode(el.getGroup());
-                double newX = el.getX() + 60;
+                double newX = el.getX() + 10;
                 if (Main.sizeX >= newX && newX >= Main.minX) {
-                    transition.setByX(60);
+                    transition.setByX(10);
                     el.setXY(newX, el.getY());
                 }
                 transition.play();
             }
         }
-        try{
-            Main.inLog.write("[" + Main.currentTime() + "] " +
-                "Selected micro-objects have been moved to the right \n");}
-        catch(IOException exc){exc.getMessage();}
+        Initialization.writeToFile("Selected micro-objects have been moved to the right ");
     }
     public static void selectedPeopleMoveDOWN()
     {
         for(var el : selected) {
             if (el != null) {
-                TranslateTransition transition = new TranslateTransition();
+                TranslateTransition transition = new TranslateTransition(Duration.millis(1));
                 transition.setNode(el.getGroup());
-                double newY = el.getY() + 60;
+                double newY = el.getY() + 10;
                 if (Main.sizeY >= newY && newY >= Main.minY) {
-                    transition.setByY(60);
+                    transition.setByY(10);
                     el.setXY(el.getX(), newY);
                 }
                 transition.play();
             }
         }
-        try{
-            Main.inLog.write("[" + Main.currentTime() + "] " +
-                "Selected micro-objects have been moved to the down \n");}
-        catch(IOException exc){exc.getMessage();}
+        Initialization.writeToFile("Selected micro-objects have been moved to the down ");
     }
     public static void letGoPeople()
     {
@@ -99,14 +87,11 @@ public class interactionWithEachPeople
             dontActive.add(el);
         }
         selected.removeAll(dontActive);
-        try{
-            Main.inLog.write("[" + Main.currentTime() + "] " +
-                "Selected micro-objects were released \n");}
-        catch(IOException exc){exc.getMessage();}
+        Initialization.writeToFile("Selected micro-objects were released ");
     }
     private static HashMap<ImageView,Peasant> fillMap ()
     {
-          for(var el: Main.createEveryThingArmy())
+          for(var el: Initialization.createEveryThingArmy())
           {
               mapPeople.put(el.getImageView(),el);
           }
@@ -133,10 +118,7 @@ public class interactionWithEachPeople
                 }
                 people.takePeople();
                 selected.add(people);
-                try{
-                    Main.inLog.write("[" + Main.currentTime() + "] " +
-                        "The micro-object was chosen to: " + people.getName() + "\n");}
-                catch(IOException exc){exc.getMessage();}
+                Initialization.writeToFile("The micro-object was chosen to: " + people.getName());
             }
         }
     };
@@ -157,10 +139,7 @@ public class interactionWithEachPeople
                 el = null;
         }
         selected.removeAll(selected);
-        try{
-            Main.inLog.write("[" + Main.currentTime() + "] " +
-                "All selected micro-objects have been removed \n");}
-        catch(IOException exc){exc.getMessage();}
+        Initialization.writeToFile("All selected micro-objects have been removed ");
     }
     public static void clonePeople()
     {
@@ -175,4 +154,26 @@ public class interactionWithEachPeople
         return handler;
     }
     public static ArrayList<Peasant> getSelected(){return selected;}
+    public static void putFlag()
+    {
+        for(var el : selected)
+        {
+            if(!el.getType().equals(People.PEASANT))
+            {
+                Warrior aboveSecondLevel = (Warrior)el;
+                aboveSecondLevel.putUpFlag();
+            }
+        }
+    }
+    public static void createCart()
+    {
+        for(var el : selected)
+        {
+            if(el.getType().equals(People.KNIGHT))
+            {
+                Knight maxLevel = (Knight) el;
+                maxLevel.createCart();
+            }
+        }
+    }
 }

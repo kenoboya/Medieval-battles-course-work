@@ -1,5 +1,6 @@
 package codeGame.dialogs;
 
+import codeGame.Initialization;
 import codeGame.Main;
 import codeGame.microObject.Peasant;
 import codeGame.microObject.People;
@@ -10,7 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
+import java.util.Collections;
+
 public class changePeopleParameterDialog
 {
     public static void display()
@@ -27,10 +29,9 @@ public class changePeopleParameterDialog
           layout.setSpacing(10);
 
           ComboBox comboBox = new ComboBox();
-          comboBox.getItems().addAll(Main.createEveryThingArmy());
+          comboBox.getItems().addAll(Initialization.createEveryThingArmy());
           ComboBox comboBoxClass = new ComboBox();
-          comboBoxClass.getItems().addAll(People.PEASANT.toString(),People.WARRIOR.toString(),
-                  People.KNIGHT.toString());
+          comboBoxClass.getItems().addAll(People.getAllEnum());
 
           RadioButton radioButtonRedTeam = new RadioButton(Team.RED.toString());
           RadioButton radioButtonGreenTeam = new RadioButton(Team.GREEN.toString());
@@ -62,8 +63,8 @@ public class changePeopleParameterDialog
                 try {
                       double OX = 1, OY = 1;
                       int index;
-                      index = Main.createEveryThingArmy().indexOf(comboBox.getValue());
-                      Peasant object = Main.createEveryThingArmy().get(index);
+                      index = Initialization.createEveryThingArmy().indexOf(comboBox.getValue());
+                      Peasant object = Initialization.createEveryThingArmy().get(index);
                       if (comboBox.getValue() != null) {
                             if (object.getTeam().equalsIgnoreCase(Team.RED.toString())) {
                                   index = Main.armyRed.indexOf(comboBox.getValue());
@@ -99,20 +100,17 @@ public class changePeopleParameterDialog
                                   Class = People.KNIGHT.toString();
                             }
                             if (!Class.equals("null") && !team.equals("null")) {
-                                  try{
-                                        Main.inLog.write("[" + Main.currentTime() + "] " +
-                                          "The micro object has been changed to a new name: " + name + "\n");}
-                                  catch(IOException ex){ex.getMessage();}
-                                  Main.createSoldier(name, age, team, Class, X, Y);
+                                  Initialization.writeToFile("The micro object has been changed to a new name: " + name);
+                                  Initialization.createFactory(Class).createPeople(name,Integer.parseInt(age),
+                                          Team.GREEN.toString(), Double.parseDouble(X),Double.parseDouble(Y));
+                                  Collections.sort(Main.armyRed,new Peasant.PeopleDamageComparator());
+                                  Collections.sort(Main.armyGreen,new Peasant.PeopleDamageComparator());
                             }
                       }
                 }
                 catch(Exception ex)
                 {
-                      try{
-                            Main.inLog.write("[" + Main.currentTime() + "] " +
-                              "The user dont enter information about People \n");}
-                      catch(IOException exc){exc.getMessage();}
+                      Initialization.writeToFile("The user dont enter information about People ");
                       System.out.println("For programmer: " + ex.getMessage());
                 }
                 finally{window.close();}

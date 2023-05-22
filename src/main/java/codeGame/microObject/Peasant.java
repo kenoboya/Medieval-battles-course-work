@@ -1,5 +1,7 @@
 package codeGame.microObject;
+import codeGame.Initialization;
 import codeGame.Main;
+import codeGame.Sound;
 import codeGame.action.Movement;
 import codeGame.action.interactionWithEachPeople;
 import javafx.animation.TranslateTransition;
@@ -12,18 +14,17 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class Peasant extends AbstractPeople implements Action, Cloneable,
+public class Peasant extends AbstractPeople implements Cloneable,
         Comparable<Peasant>/*,Comparator<Peasant>*/
 {
     private int HP = 100;
     private final double DAMAGE = 35;
     protected People type = People.PEASANT;
     // LAB2
-/*    public Peasant() {System.out.println("Called basic constructor");}
+    /*    public Peasant() {System.out.println("Called basic constructor");}
     static{System.out.println("A static block was called");}
     {System.out.println("A dynamic block was called");}*/
     // LAB2
@@ -40,6 +41,7 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
         setImageView();
         setGroup();
         addGroup();
+        Initialization.writeToFile("A micro object has been created to: " + name);
     }
     public People getType(){return this.type;}
     public boolean getStatusDead(){return super.dead;}
@@ -57,7 +59,7 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
         String pathToHP = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\health.png";
         super.groupHP = new Group();
         super.healthView = new ImageView(new Image(pathToHP));
-        super.healthView.setX(x+73);
+        super.healthView.setX(x+60);
         super.healthView.setY(y-5);
         super.groupHP.getChildren().add(healthView);
     }
@@ -66,8 +68,8 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
     {
         super.name = name;
         super.label = new Label(name);
-        super.label.setLayoutX(x+68);
-        super.label.setLayoutY(y+15);
+        super.label.setLayoutX(x+50);
+        super.label.setLayoutY(y+12);
         super.label.setTextFill(Color.FLORALWHITE);
         super.label.setFont(Font.font("Verdana", FontWeight.BOLD,15));
     }
@@ -139,15 +141,16 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
     public Peasant clone() throws CloneNotSupportedException
     {
         Peasant clone = (Peasant)super.clone();
-        String copyName = clone.getName() + " COPY ";
-        Main.createSoldier(copyName,String.valueOf(clone.getAge()),clone.getTeam(),
-                clone.getType().toString(),String.valueOf(clone.getX()),String.valueOf(clone.getY()));
+        String copyName = clone.getName();
+        if(!clone.getName().contains(" COPY ")) {copyName = clone.getName() + " COPY ";}
+        Initialization.createFactory(clone.getType().toString()).createPeople(copyName, clone.getAge(),
+                clone.getTeam(),clone.getX(), clone.getY());
           return clone;
     }
 
     @Override
     public int compareTo(Peasant p) {return this.age - p.age;} // По возросту
-/*    @Override
+    /*    @Override
     public int compare(Peasant first, Peasant second) // По возросту
     {
         if(first.getAge() > second.getAge()) {return 1;}
@@ -183,11 +186,15 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
         else if(first.getDamage()< second.getDamage()) return -1;
         else return 0;}
     }
-    private void removeGroup() {Main.group.getChildren().remove(super.group);}
-    private void addGroup() {Main.group.getChildren().add(super.group);}
+    void removeGroup() {Main.group.getChildren().remove(super.group);}
+    void addGroup() {Main.group.getChildren().add(super.group);}
     @Override
     public void dead()
     {
+        if(!dead)
+        {
+            Sound.playSound("D:\\project\\game\\src\\main\\java\\codeGame\\sound\\deadPeople.mp3");
+        }
         try {Movement.transitionsMap.get(this).stop();/*Movement.transitionsMap.remove(this);*/}
         catch(Exception ex){};
         removeGroup();
@@ -216,7 +223,7 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
         removeGroup();
         super.group.getChildren().remove(super.groupHP);
         super.groupHP = new Group();
-        for(int dX = 35; i > 0; i--,dX+=20) {
+        for(int dX = 35; i > 0; i--,dX+=15) {
             super.healthView = new ImageView(new Image(pathToHP));
             super.healthView.setX(this.viewObject.getX() + dX);
             super.healthView.setY(this.viewObject.getY() - 25);
@@ -254,53 +261,23 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
                 break;
         }
         if (Main.minX <= newX && Main.minY <= newY && Main.sizeX >= newX && Main.sizeY >= newY) {
-            for (var el : Main.createEveryThingArmy()) {
+            for (var el : Initialization.createEveryThingArmy()) {
                 if (!this.equals(el)) {
-                    if (el.getX() <= newX && el.getY() <= newY) {
-                        if (el.getX() + 125 > newX && el.getY() + 175 > newY) {
-                            collision = true;
-                        }
-                    } else if (el.getX() >= newX && el.getY() >= newY) {
-                        if (el.getX() - 125 < newX && el.getY() - 175 < newY) {
-                            collision = true;
-                        }
-                    }
-                }
+                    if (el.getGroup().getBoundsInParent().
+                            intersects(newX,newY,this.viewObject.getFitWidth(),this.viewObject.getFitHeight()))
+                    {collision = true;}}
             }
             if (!collision) {
                 transition.setByX(moveX);
                 transition.setByY(moveY);
                 setXY(newX, newY);
-
-                for (var el : Main.createEveryThingArmy()) {
-
-                    if (!(el.getTeam().equalsIgnoreCase(this.team))) {
-                        if (el.getX() <= this.getX() && el.getY() <= this.getY()) {
-                            if (el.getX() + 150 > this.getX() && el.getY() + 200 > this.getY()) {
-                                if (!((el.dead || this.dead) || (el.dead && this.dead))) {
-                                    el.attackUnit(this.DAMAGE);
-                                    attackUnit(el.DAMAGE);
-                                }
-                            }
-                        } else if (el.getX() >= this.getX() && el.getY() >= this.getY()) {
-                            if (el.getX() - 150 < this.getX() && el.getY() - 200 < this.getY()) {
-                                if (!((el.dead || this.dead) || (el.dead && this.dead))) {
-                                    el.attackUnit(this.DAMAGE);
-                                    attackUnit(el.DAMAGE);
-                                }
-                            }
-                        }
-                    }
-                }
             } else {
                 transition.setByX(0.0);
                 transition.setByY(0.0);
-                System.out.println("COLLISION");
             }
         } else {
             transition.setByX(0.0);
             transition.setByY(0.0);
-            System.out.println("BORDER");
         }
         if (!this.getStatusDead()) {
             transition.playFromStart();
@@ -310,7 +287,7 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
     public TranslateTransition walk()
     {
         if(!Main.FORTRESS_RED.insidePeople.contains(this)
-                || !Main.FORTRESS_GREEN.insidePeople.contains(this)) {
+                && !Main.FORTRESS_GREEN.insidePeople.contains(this)) {
             TranslateTransition transition = new TranslateTransition(Duration.millis(250));
             onceWalk(transition);
             transition.setOnFinished(e -> {
@@ -328,44 +305,46 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
     {
         Main.FORTRESS_RED.setInside();
         Main.FORTRESS_GREEN.setInside();
-        if(!Main.FORTRESS_GREEN.getInside() && !Main.FORTRESS_RED.getInside()) {
             interactionWithEachPeople.letGoPeople();
+            Movement.stopWalk();
             try {
-                for (var el : Main.armyRed) {
-                    TranslateTransition transition = new TranslateTransition(Duration.seconds(1));
-                    transition.setNode(el.getGroup());
-                    transition.setByX(Math.floor(2370 - el.getX()));
-                    transition.setByY(Math.floor(755 - el.getY()));
-                    transition.setOnFinished(ev -> {
-                        el.getGroup().setVisible(false);
-                        Main.FORTRESS_RED.insidePeople.add(el);
-                    });
-                    el.setXY(2370, 765);
-                    transition.play();
+                if(!Main.FORTRESS_RED.getInside()) {
+                    for (var el : Main.armyRed) {
+                        if (!el.dead) {
+                            TranslateTransition transition = new TranslateTransition(Duration.seconds(1));
+                            transition.setNode(el.getGroup());
+                            transition.setByX(Math.floor(2370 - el.getX()));
+                            transition.setByY(Math.floor(755 - el.getY()));
+                            transition.setOnFinished(ev -> {
+                                el.getGroup().setVisible(false);
+                                Main.FORTRESS_RED.insidePeople.add(el);
+                            });
+                            el.setXY(2370, 765);
+                            transition.play();
+                        }
+                    }
                 }
-                for (var el : Main.armyGreen) {
-                    TranslateTransition transition1 = new TranslateTransition(Duration.seconds(1));
-                    transition1.setNode(el.getGroup());
-                    transition1.setByX(Math.floor(320 - el.getX()));
-                    transition1.setByY(Math.floor(755 - el.getY()));
-                    transition1.setOnFinished(ev -> {
-                        el.getGroup().setVisible(false);
-                        Main.FORTRESS_GREEN.insidePeople.add(el);
-                    });
-                    el.setXY(320, 755);
-                    transition1.play();
+                if(!Main.FORTRESS_GREEN.getInside()) {
+                    for (var el : Main.armyGreen) {
+                        if (!el.dead) {
+                            TranslateTransition transition1 = new TranslateTransition(Duration.seconds(1));
+                            transition1.setNode(el.getGroup());
+                            transition1.setByX(Math.floor(320 - el.getX()));
+                            transition1.setByY(Math.floor(755 - el.getY()));
+                            transition1.setOnFinished(ev -> {
+                                el.getGroup().setVisible(false);
+                                Main.FORTRESS_GREEN.insidePeople.add(el);
+                            });
+                            el.setXY(320, 755);
+                            transition1.play();
+                        }
+                    }
                 }
-                try{
-                    Main.inLog.write("[" + Main.currentTime() + "] " +
-                        "All micro-objects were sent to their castles \n");}
-                catch(IOException exc){exc.getMessage();}
+                Initialization.writeToFile("All micro-objects were sent to their castles ");
             } catch (Exception ex) {
                 System.out.println("For programmer: " + ex.getMessage());
             }
-        }
     }
-    @Override
-    public void seizePoint() {}
     @Override
     public void takePeople()
     {
@@ -375,8 +354,8 @@ public class Peasant extends AbstractPeople implements Action, Cloneable,
         super.lineRectangle.setStrokeType(StrokeType.INSIDE);
         super.lineRectangle.setStrokeWidth(3);
         super.lineRectangle.setFill(Color.TRANSPARENT);
-        super.lineRectangle.setHeight(230);
-        super.lineRectangle.setWidth(165);
+        super.lineRectangle.setHeight(190);
+        super.lineRectangle.setWidth(135);
         try {
             removeGroup();
             super.group.getChildren().add(super.lineRectangle);

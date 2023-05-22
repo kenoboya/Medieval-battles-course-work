@@ -1,8 +1,8 @@
 package codeGame.macroObject;
 
+import codeGame.Initialization;
 import codeGame.Main;
 import codeGame.action.insideMacroObject;
-import codeGame.microObject.Peasant;
 import codeGame.microObject.Team;
 import javafx.scene.Group;
 import javafx.scene.effect.Glow;
@@ -15,22 +15,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-
-public final class Fortress
+public class Fortress extends Construction
 {
-    protected Bulding type = Bulding.FORTRESS;
-    public boolean inside = false;
-    public ArrayList<Peasant> insidePeople = new ArrayList<>();
+    protected Building type = Building.FORTRESS;
+    private int POINT = 0;
     private static final double DAMAGE = 30;
-    private Group group;
-    private ImageView imageView;
     private String team;
-    private double x,y;
-
     protected Text textTeam;
     private Circle circle;
-    public Fortress(double x, double y, String team)
+    public Fortress(String team,double x, double y)
     {
         this.x = x;
         this.y = y;
@@ -39,12 +32,13 @@ public final class Fortress
         setCircle();
         setTextTeam();
         Main.group.getChildren().addAll(setGroup());
-
+        Initialization.writeToFile("A macro object has been created to: " + team + " FORTRESS");
     }
+    public static double getDamage(){return DAMAGE;}
     public double getX() {return x;}
     public double getY() {return y;}
     public String getTeam(){return team;}
-    public ImageView getImageView(){return this.imageView;}
+    public Circle getCircle(){return circle;}
     private void setTextTeam()
     {
         Glow glow = new Glow();
@@ -109,5 +103,8 @@ public final class Fortress
     {
         return inside;
     }
-    public Bulding getType(){return this.type;}
+    @Override
+    public Building getType(){return this.type;}
+    public int getPOINT(){return POINT;}
+    public void setPOINT(int POINT){this.POINT = POINT;}
 }

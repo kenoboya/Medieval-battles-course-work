@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 public class Knight extends Warrior
 {
-    private int chance; // Рандомное число.
+    private Cart cart;
     private int HP = 500;
     private final double DAMAGE = 100;
     protected People type = People.KNIGHT;
@@ -28,15 +28,20 @@ public class Knight extends Warrior
     public void setHP() {
         String pathToHP = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\health.png";
         super.groupHP =  new Group();
-        for(int i = 0,dX = 35; i < 5; i++,dX+=20) {
+        for(int i = 0,dX = 22; i < 5; i++,dX+=15) {
             super.healthView = new ImageView(new Image(pathToHP));
             super.healthView.setX(x + dX);
             super.healthView.setY(y - 5);
             super.groupHP.getChildren().addAll(super.healthView);
         }
     }
-    public void defend() // Защищаться щитом (отличие от война)
+    public void createCart()
     {
-        // Выпадает рандомное число, и если оно положительное к примеру. Рыцарь отражает атаку.
+        if(cart == null)
+        {
+            Cart.cartList.add(Cart.builder().addTeam(super.team)
+                    .setXY(getX(),getY()).build());
+            cart = Cart.cartList.get(Cart.cartList.size() - 1);
+        }
     }
 }

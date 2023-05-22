@@ -1,17 +1,13 @@
 package codeGame.action;
 
+import codeGame.Initialization;
 import codeGame.Main;
 import codeGame.microObject.Peasant;
-import java.io.IOException;
-
-
 public class searchPeople
 {
     public static void search(Peasant people)
-    { try{
-        Main.inLog.write("[" + Main.currentTime() + "] " +
-            "The search for a micro-object was started to: " + people.getName() + "\n");}
-    catch(IOException ex){ex.getMessage();}
+    {
+        Initialization.writeToFile("The search for a micro-object was started to: " + people.getName());
         if(people.getX() <= 1400 && people.getY() <= 650)
         {
             Main.group.setLayoutX(0);

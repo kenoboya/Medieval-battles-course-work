@@ -1,6 +1,8 @@
 package codeGame.dialogs;
 
+import codeGame.Initialization;
 import codeGame.Main;
+import codeGame.macroObject.Building;
 import codeGame.microObject.Peasant;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
 public class infoAboutPeopleDialog
 {
     public static void display()
@@ -27,7 +28,7 @@ public class infoAboutPeopleDialog
         layout.setSpacing(10);
 
         ComboBox comboBox = new ComboBox();
-        comboBox.getItems().addAll(Main.createEveryThingArmy());
+        comboBox.getItems().addAll(Initialization.createEveryThingArmy());
 
         Label informationLabel = new Label("Select the person you want to get information from");
 
@@ -44,23 +45,23 @@ public class infoAboutPeopleDialog
 
             try {
                 int index;
-                index = Main.createEveryThingArmy().indexOf(comboBox.getValue());
-                Peasant object = Main.createEveryThingArmy().get(index);
+                index = Initialization.createEveryThingArmy().indexOf(comboBox.getValue());
+                Peasant object = Initialization.createEveryThingArmy().get(index);
                 Label nameLabel = new Label("Name: " + String.valueOf(object.getName()));
                 Label ageLabel = new Label("Age: " + String.valueOf(object.getAge()));
                 Label teamLabel = new Label("Team: " + String.valueOf(object.getTeam()));
                 Label HPLabel = new Label("HP: " + String.valueOf(object.getHP()));
                 Label damageLabel = new Label("Damage: " + String.valueOf(object.getDamage()));
                 Label BelongingToTheMacroObjectLabel = new Label();
-                if(Main.FORTRESS_RED.insidePeople.contains(object))
-                {
-                    BelongingToTheMacroObjectLabel.setText("Belonging to the macroObject: RED FORTRESS");
+                String macroType = "NONE";
+                for(var macro : Initialization.createEveryThingMacro()) {
+                    if (macro.insidePeople.contains(object))
+                    {
+                        macroType = macro.getType().toString();
+                        break;
+                    }
                 }
-                else if(Main.FORTRESS_GREEN.insidePeople.contains(object))
-                {
-                    BelongingToTheMacroObjectLabel.setText("Belonging to the macroObject: GREEN FORTRESS");
-                }
-                else {BelongingToTheMacroObjectLabel.setText("Belonging to the macroObject: NONE");}
+                BelongingToTheMacroObjectLabel.setText("Belonging to the macroObject: " + macroType);
                 Button okButton = new Button("OK");
                 {
                     okButton.setOnAction((element) -> {
@@ -76,9 +77,7 @@ public class infoAboutPeopleDialog
             }
             catch(Exception ex)
             {
-                try{Main.inLog.write("[" + Main.currentTime() + "] " +
-                        "The user has not selected a person \n");}
-                catch(IOException exc){exc.getMessage();}
+                Initialization.writeToFile("The user has not selected a person ");
                 System.out.println("For programmer: " + ex.getMessage());
             }
         });

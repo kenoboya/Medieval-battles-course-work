@@ -1,9 +1,9 @@
 package codeGame.action;
+import codeGame.Initialization;
 import codeGame.Main;
 import codeGame.microObject.Peasant;
 import codeGame.microObject.Team;
 import javafx.animation.TranslateTransition;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class Movement
@@ -12,10 +12,10 @@ public class Movement
     static boolean stood = false;
     private static TranslateTransition [] transitions;
     public static void walk() {
-        transitions = new TranslateTransition[Main.createEveryThingArmy().size()];
+        transitions = new TranslateTransition[Initialization.createEveryThingArmy().size()];
         transitionsMap =  new HashMap<>();
         int index = 0;
-        for (var el : Main.createEveryThingArmy())
+        for (var el : Initialization.createEveryThingArmy())
         {
             if(!el.getStatusDead())
             {
@@ -30,19 +30,19 @@ public class Movement
     {
         for (var transition : transitions) {transition.pause();}
         stood = true;
-        try{
-            Main.inLog.write("[" + Main.currentTime() + "] " +
-                "The movement of micro-objects was stopped \n");}
-        catch(IOException exc){exc.getMessage();}
+        Initialization.writeToFile("The movement of micro-objects was stopped ");
     }
     private static void playAnimation()
     {
-        for(var transition : transitions) {transition.play();}
-        stood = false;
-        try{
-            Main.inLog.write("[" + Main.currentTime() + "] " +
-                "The movement of micro-objects was started \n");}
-        catch(IOException exc){exc.getMessage();}
+        for(var el : Initialization.createEveryThingArmy()) {
+            if (!Main.FORTRESS_RED.insidePeople.contains(el)
+                    && !Main.FORTRESS_GREEN.insidePeople.contains(el))
+            {
+                transitionsMap.get(el).playFromStart();
+                stood = false;
+                Initialization.writeToFile("The movement of micro-objects was started ");
+            }
+        }
     }
     private static void statusCheck()
     {
@@ -54,10 +54,7 @@ public class Movement
         try {stopAnimation();}
         catch(Exception ex)
         {
-            try{
-                Main.inLog.write("[" + Main.currentTime() + "] " +
-                    "Objects are already standing or animation has not even been started \n");}
-            catch(IOException exc){exc.getMessage();}
+            Initialization.writeToFile("Objects are already standing or animation has not even been started ");
             System.out.println("For programmer: " + ex.getMessage());
         }
     }
@@ -67,16 +64,13 @@ public class Movement
         catch (Exception ex)
         {
             walk();
-            try{
-                Main.inLog.write("[" + Main.currentTime() + "] " +
-                    "Objects are already standing or animation has not even been started \n");}
-            catch(IOException exc){exc.getMessage();}
+            Initialization.writeToFile("Objects are already standing or animation has not even been started ");
             System.out.println("For programmer: " + ex.getMessage());
         }
     }
     public static void clearCorpse()
     {
-        for(var el : Main.createEveryThingArmy())
+        for(var el : Initialization.createEveryThingArmy())
         {
             if(el.getStatusDead())
             {
@@ -93,9 +87,6 @@ public class Movement
                 el = null;
             }
         }
-        try{
-            Main.inLog.write("[" + Main.currentTime() + "] " +
-                "The corpses have been removed \n");}
-        catch(IOException exc){exc.getMessage();}
+        Initialization.writeToFile("The corpses have been removed ");
     }
 }

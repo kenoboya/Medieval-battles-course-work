@@ -1,6 +1,8 @@
 package codeGame.dialogs;
 
+import codeGame.Initialization;
 import codeGame.Main;
+import codeGame.microObject.Peasant;
 import codeGame.microObject.People;
 import codeGame.microObject.Team;
 import javafx.geometry.Pos;
@@ -9,7 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
+import java.util.Collections;
+
 public class createPeopleDialog
 {
     public static void display()
@@ -26,8 +29,7 @@ public class createPeopleDialog
         layout.setSpacing(10);
 
         ComboBox comboBoxClass = new ComboBox<>();
-        comboBoxClass.getItems().addAll(People.PEASANT.toString(),People.WARRIOR.toString(),
-                People.KNIGHT.toString());
+        comboBoxClass.getItems().addAll(People.getAllEnum());
 
         RadioButton radioButtonRedTeam = new RadioButton(Team.RED.toString());
         RadioButton radioButtonGreenTeam = new RadioButton(Team.GREEN.toString());
@@ -86,15 +88,15 @@ public class createPeopleDialog
                     Class = People.KNIGHT.toString();
                 }
                 if (!Class.equals("null") && !team.equals("null")) {
-                    Main.createSoldier(name, age, team, Class, X, Y);
+                    Initialization.createFactory(Class).createPeople(name,Integer.parseInt(age),
+                            Team.GREEN.toString(), Double.parseDouble(X),Double.parseDouble(Y));
                 }
+                Collections.sort(Main.armyRed,new Peasant.PeopleDamageComparator());
+                Collections.sort(Main.armyGreen,new Peasant.PeopleDamageComparator());
             }
             catch(Exception ex)
             {
-                try{
-                    Main.inLog.write("[" + Main.currentTime() + "] " +
-                        "The user dont enter information about People \n");}
-                catch(IOException exc){exc.getMessage();}
+                Initialization.writeToFile("The user dont enter information about People ");
                 System.out.println("For programmer: " + ex.getMessage());
             }
         });

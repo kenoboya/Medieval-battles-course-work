@@ -1,5 +1,6 @@
 package codeGame.action;
 
+import codeGame.Initialization;
 import codeGame.Main;
 import codeGame.macroObject.Fortress;
 import codeGame.microObject.Peasant;
@@ -83,7 +84,7 @@ public class insideMacroObject
             if(obj instanceof Fortress fortress)
             {
                 display(fortress);
-                for (var el : Main.createEveryThingArmy())
+                for (var el : Initialization.createEveryThingArmy())
                 {
                     if(el.equals(interactionWithEachPeople.elementAfterInsideMacro)) {
                        if(el.getTeam().equals(Team.RED.toString())) {

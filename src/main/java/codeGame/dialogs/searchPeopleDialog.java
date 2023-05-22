@@ -1,5 +1,6 @@
 package codeGame.dialogs;
 
+import codeGame.Initialization;
 import codeGame.Main;
 import codeGame.action.searchPeople;
 import codeGame.microObject.People;
@@ -10,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
 public class searchPeopleDialog
 {
     public static void display()
@@ -73,7 +73,7 @@ public class searchPeopleDialog
                 } else if (comboBoxClass.getValue().equals(People.KNIGHT.toString())) {
                     Class = People.KNIGHT.toString();
                 }
-                for(var el : Main.createEveryThingArmy())
+                for(var el : Initialization.createEveryThingArmy())
                 {
                     if(el.getName().equalsIgnoreCase(name) && el.getAge() == Integer.parseInt(age)
                     && el.getTeam().equalsIgnoreCase(team) && el.getType().toString().equalsIgnoreCase(Class))
@@ -82,10 +82,7 @@ public class searchPeopleDialog
             }
             catch(Exception ex)
             {
-                try{
-                    Main.inLog.write("[" + Main.currentTime() + "] " +
-                        "The user dont enter information about People \n");}
-                catch(IOException exc){exc.getMessage();}
+                Initialization.writeToFile("The user dont enter information about People ");
                 System.out.println("For programmer: " + ex.getMessage());
             }
         });
