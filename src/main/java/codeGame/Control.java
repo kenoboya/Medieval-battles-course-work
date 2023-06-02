@@ -1,11 +1,10 @@
 package codeGame;
 
 import codeGame.action.Movement;
-import codeGame.action.interactionWithEachPeople;
-import codeGame.action.intersection;
-import codeGame.action.moveStage;
+import codeGame.action.InteractionWithEachPeople;
+import codeGame.action.Intersection;
+import codeGame.action.MoveStage;
 import codeGame.dialogs.*;
-import codeGame.microObject.Cart;
 import codeGame.microObject.Peasant;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -19,17 +18,19 @@ public class Control
         {
             KeyCodeCombination combination = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
             if(combination.match(key)) {
-                interactionWithEachPeople.clonePeople();
+                InteractionWithEachPeople.clonePeople();
             }
             else {
                 switch (key.getCode()) {
-                    case F1 -> createPeopleDialog.display();
-                    case F2 -> deletePeopleDialog.display();
-                    case F3 -> changePeopleParameterDialog.display();
-                    case F4 -> infoAboutPeopleDialog.display();
-                    case F5 -> getPeopleBelongingToMacroObject.display(true);
-                    case F6 -> getPeopleBelongingToMacroObject.display(false);
-                    case F7 -> searchPeopleDialog.display();
+                    case F1 -> CreatePeopleDialog.display();
+                    case F2 -> DeletePeopleDialog.display();
+                    case F3 -> ChangePeopleParameterDialog.display();
+                    case F4 -> InfoAboutPeopleDialog.display();
+                    case F5 -> GetPeopleBelongingToMacroObject.display(true);
+                    case F6 -> GetPeopleBelongingToMacroObject.display(false);
+                    case F7 -> SearchPeopleDialog.display();
+                    case F8 -> SaveGameDialog.display();
+                    case F9 -> OpenSaveDialog.display();
 
                     case NUMPAD0 -> Movement.walk();
                     case E -> Peasant.stand();
@@ -37,33 +38,34 @@ public class Control
                     case F -> Peasant.returnToTheFortress();
                     case J -> Movement.clearCorpse();
 
-                    case NUMPAD6 -> interactionWithEachPeople.selectedPeopleMoveRIGHT();
-                    case NUMPAD4 -> interactionWithEachPeople.selectedPeopleMoveLEFT();
-                    case NUMPAD8 -> interactionWithEachPeople.selectedPeopleMoveUP();
-                    case NUMPAD2 -> interactionWithEachPeople.selectedPeopleMoveDOWN();
-                    case NUMPAD5 -> interactionWithEachPeople.letGoPeople();
+                    case NUMPAD6 -> InteractionWithEachPeople.selectedPeopleMoveRIGHT();
+                    case NUMPAD4 -> InteractionWithEachPeople.selectedPeopleMoveLEFT();
+                    case NUMPAD8 -> InteractionWithEachPeople.selectedPeopleMoveUP();
+                    case NUMPAD2 -> InteractionWithEachPeople.selectedPeopleMoveDOWN();
+                    case NUMPAD5 -> InteractionWithEachPeople.letGoPeople();
 
-                    case G -> interactionWithEachPeople.putFlag();
-                    case M -> interactionWithEachPeople.createCart();
+                    case G -> InteractionWithEachPeople.putFlag();
+                    case H -> InteractionWithEachPeople.createCart();
 
-                    case DELETE -> interactionWithEachPeople.clear();
+                    case DELETE -> InteractionWithEachPeople.clear();
                     // Для 3-й лабы (просто другая комбинация клавиш)
-                    case INSERT -> createPeopleDialog.display();
-                    case ESCAPE -> interactionWithEachPeople.letGoPeople();
+                    case INSERT -> CreatePeopleDialog.display();
+                    case ESCAPE -> InteractionWithEachPeople.letGoPeople();
                     case F10 -> System.exit(0);
 
-                    case UP -> moveStage.upStage();
-                    case DOWN -> moveStage.downStage();
-                    case RIGHT -> moveStage.rightStage();
-                    case LEFT -> moveStage.leftStage();
+                    case UP -> MoveStage.upStage();
+                    case DOWN -> MoveStage.downStage();
+                    case RIGHT -> MoveStage.rightStage();
+                    case LEFT -> MoveStage.leftStage();
 
-                    case Y -> intersection.startIntersactionMacro();
-                    case U -> intersection.stopIntersactionMacro();
+                    case Y -> Intersection.startIntersactionMacro();
+                    case U -> Intersection.stopIntersactionMacro();
 
-                    case K -> moveStage.timeline();
+                    case M -> MoveStage.statusMiniMap();
 
                     case ADD -> Sound.playAgainSoundTrack();
                     case SUBTRACT -> Sound.stopSoundTrack();
+
                 }
             }
         });

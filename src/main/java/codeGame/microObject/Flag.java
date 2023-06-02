@@ -5,9 +5,10 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Flag
+public class Flag implements Serializable
 {
     public static ArrayList<Flag> flagArrayList = new ArrayList<>();
     private double x,y;
@@ -30,19 +31,19 @@ public class Flag
     {
         if(team.equalsIgnoreCase(Team.RED.toString()))
         {
+
             imageView = new ImageView(
-                    new Image("D:\\project\\game\\src\\main\\java\\codeGame\\image\\flag_red.png"));
+                    new Image(Main.class.getResource("flag_red.png").toString()));
             imageView.setX(x); imageView.setY(y);
         }
         else if(team.equalsIgnoreCase(Team.GREEN.toString()))
         {
             imageView = new ImageView(
-                    new Image("D:\\project\\game\\src\\main\\java\\codeGame\\image\\flag_green.png"));
+                    new Image(Main.class.getResource("flag_green.png").toString()));
             imageView.setX(x); imageView.setY(y);
         }
     }
-    private Group setGroup()
-    {
+    private Group setGroup() {
         group = new Group(imageView);
         return group;
     }

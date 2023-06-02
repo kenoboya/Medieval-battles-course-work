@@ -1,8 +1,6 @@
 package codeGame.dialogs;
 
 import codeGame.Initialization;
-import codeGame.Main;
-import codeGame.macroObject.Building;
 import codeGame.microObject.Peasant;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-public class infoAboutPeopleDialog
+public class InfoAboutPeopleDialog
 {
     public static void display()
     {
@@ -38,6 +36,7 @@ public class infoAboutPeopleDialog
             Stage window1 = new Stage();
             window1.initModality(Modality.WINDOW_MODAL);
             window1.setMinWidth(350);
+            window1.setResizable(false);
             window1.setMaxHeight(350);
 
             VBox layout1 = new VBox();

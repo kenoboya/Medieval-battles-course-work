@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class deletePeopleDialog
+public class DeletePeopleDialog
 {
     public static void display()
     {
@@ -21,6 +21,8 @@ public class deletePeopleDialog
         window.setTitle("Delete people");
         window.setMinWidth(350);
         window.setMinHeight(350);
+        window.setMaxWidth(350);
+        window.setMaxHeight(350);
 
         VBox layout = new VBox();
         layout.setAlignment(Pos.CENTER);

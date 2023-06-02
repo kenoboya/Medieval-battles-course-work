@@ -2,8 +2,9 @@ package codeGame.microObject;
 import codeGame.Initialization;
 import codeGame.Main;
 import codeGame.Sound;
+import codeGame.action.MoveStage;
 import codeGame.action.Movement;
-import codeGame.action.interactionWithEachPeople;
+import codeGame.action.InteractionWithEachPeople;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -14,12 +15,17 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Peasant extends AbstractPeople implements Cloneable,
-        Comparable<Peasant>/*,Comparator<Peasant>*/
+        Comparable<Peasant>, Serializable /*,Comparator<Peasant>*/
 {
+    private transient HashMap<HashMap<String, ArrayList<Peasant>>,OldCoordinates> oldCoordinates = new HashMap<>();
     private int HP = 100;
     private final double DAMAGE = 35;
     protected People type = People.PEASANT;
@@ -54,9 +60,20 @@ public class Peasant extends AbstractPeople implements Cloneable,
     public int getAge() {return super.age;}
     public double getX() {return super.x;}
     public double getY() {return super.y;}
-    public void setHP()
-    {
-        String pathToHP = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\health.png";
+    public OldCoordinates getOldCordinates(HashMap<String,ArrayList<Peasant>> name) {
+        return oldCoordinates.get(name);
+    }
+    public void save(HashMap<String,ArrayList<Peasant>> name) {
+        oldCoordinates.put(name,new OldCoordinates(x,y,group.getTranslateX(),group.getTranslateY()));
+    }
+    public void setOldCordinate(OldCoordinates pair) {
+        this.x = pair.getOldX();
+        this.y = pair.getOldY();
+        this.group.setTranslateX(pair.getOldGroupX());
+        this.group.setTranslateY(pair.getOldGroupY());
+    }
+    public void setHP() {
+        String pathToHP = Main.class.getResource("health.png").toString();
         super.groupHP = new Group();
         super.healthView = new ImageView(new Image(pathToHP));
         super.healthView.setX(x+60);
@@ -89,7 +106,7 @@ public class Peasant extends AbstractPeople implements Cloneable,
         super.viewObject = new ImageView(imageObject);
         super.viewObject.setX(x);
         super.viewObject.setY(y+15+5); // +15+5
-        super.viewObject.setOnMouseClicked(interactionWithEachPeople.getHandler());
+        super.viewObject.setOnMouseClicked(InteractionWithEachPeople.getHandler());
     }
     private void setGroup()
     {
@@ -105,10 +122,9 @@ public class Peasant extends AbstractPeople implements Cloneable,
         super.pathGREEN = pathGREEN;
         super.pathRED = pathRED;
     }
-    void setPath()
-    {
-        super.pathGREEN = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\peasant_green.png";
-        super.pathRED = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\peasant_red.png";
+    void setPath() {
+        super.pathGREEN = Main.class.getResource("peasant_green.png").toString();
+        super.pathRED = Main.class.getResource("peasant_red.png").toString();
         setPath(pathGREEN,pathRED);
     }
 
@@ -191,14 +207,14 @@ public class Peasant extends AbstractPeople implements Cloneable,
     @Override
     public void dead()
     {
-        if(!dead)
-        {
-            Sound.playSound("D:\\project\\game\\src\\main\\java\\codeGame\\sound\\deadPeople.mp3");
+        if(!dead) {
+            Sound.playSound("src\\main\\java\\codeGame\\sound\\deadPeople.mp3");
         }
-        try {Movement.transitionsMap.get(this).stop();/*Movement.transitionsMap.remove(this);*/}
+        try {
+            Movement.transitionsMap.get(this).stop();/*Movement.transitionsMap.remove(this);*/}
         catch(Exception ex){};
         removeGroup();
-        super.pathRED = super.pathGREEN = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\coffin.png";
+        super.pathRED = super.pathGREEN = Main.class.getResource("coffin.png").toString();
         setTeam(super.team);
         setName(super.name);
         setImageView();
@@ -211,7 +227,7 @@ public class Peasant extends AbstractPeople implements Cloneable,
     @Override
     public boolean attackUnit(double damage)
     {
-        String pathToHP = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\health.png";
+        String pathToHP = Main.class.getResource("health.png").toString();
         super.HP -= damage;
         int i = 0;
         if(super.HP >= 301) {i = 4;}
@@ -298,14 +314,16 @@ public class Peasant extends AbstractPeople implements Cloneable,
         }
         return null;
     }
-    public static void stand() {Movement.stopWalk();}
+    public static void stand() {
+        Movement.stopWalk();}
 
-    public static void walkAgain() {Movement.againWalk();}
+    public static void walkAgain() {
+        Movement.againWalk();}
     public static void returnToTheFortress()
     {
         Main.FORTRESS_RED.setInside();
         Main.FORTRESS_GREEN.setInside();
-            interactionWithEachPeople.letGoPeople();
+            InteractionWithEachPeople.letGoPeople();
             Movement.stopWalk();
             try {
                 if(!Main.FORTRESS_RED.getInside()) {
@@ -369,5 +387,28 @@ public class Peasant extends AbstractPeople implements Cloneable,
         removeGroup();
         super.group.getChildren().remove(super.lineRectangle);
         addGroup();
+    }
+    class OldCoordinates
+    {
+        double oldX,oldY;
+        double oldGroupX, oldGroupY;
+        private OldCoordinates(double oldX, double oldY,double oldGroupX,double oldGroupY) {
+            this.oldX = oldX;
+            this.oldY = oldY;
+            this.oldGroupX = oldGroupX;
+            this.oldGroupY = oldGroupY;
+        }
+        public double getOldX() {
+            return oldX;
+        }
+        public double getOldY() {
+            return oldY;
+        }
+        public double getOldGroupX() {
+            return oldGroupX;
+        }
+        public double getOldGroupY() {
+            return oldGroupY;
+        }
     }
 }

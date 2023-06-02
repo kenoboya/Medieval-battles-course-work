@@ -1,30 +1,29 @@
 package codeGame.microObject;
+import codeGame.Main;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Warrior extends Peasant
+public class Warrior extends Peasant implements Serializable
 {
     private List<Flag> flags = new ArrayList<>();
     private int HP = 250, limitFlag = 5, countFlag = 0;
     private boolean takenFlag = false;
     private final double DAMAGE = 60;
     protected People type = People.WARRIOR;
-    public Warrior(String name, int age, String team, double _x, double _y)
-    {
-
+    public Warrior(String name, int age, String team, double _x, double _y) {
         super(name,age,team,_x,_y);
         super.setHP(this.HP);
         super.setDAMAGE(this.DAMAGE);
     }
     @Override
-    void setPath()
-    {
-        super.pathGREEN = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\warrior_green.png";
-        super.pathRED = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\warrior_red.png";
+    void setPath() {
+        super.pathGREEN = Main.class.getResource("warrior_green.png").toString();
+        super.pathRED = Main.class.getResource("warrior_red.png").toString();
         setPath(pathGREEN,pathRED);
     }
     @Override
@@ -32,7 +31,7 @@ public class Warrior extends Peasant
     public boolean isTakenFlag(){return takenFlag;}
     @Override
     public void setHP() {
-        String pathToHP = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\health.png";
+        String pathToHP = Main.class.getResource("health.png").toString();
         super.groupHP =  new Group();
         for(int i = 0,dX = 50; i < 3; i++,dX+=15) {
             super.healthView = new ImageView(new Image(pathToHP));

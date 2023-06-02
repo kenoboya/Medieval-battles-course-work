@@ -19,10 +19,9 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
-public class insideMacroObject
+public class InsideMacroObject
 {
-    private static String pathBackground =
-            "D:\\project\\game\\src\\main\\java\\codeGame\\image\\fortressInside.jpg";
+    private static String pathBackground = Main.class.getResource("fortressInside.jpg").toString();
     public static Stage window;
     private static double  xRED = 2370, xGREEN = 320, y = 755;
     public static void display(Fortress fortress)
@@ -46,21 +45,18 @@ public class insideMacroObject
         layout.setPrefWrapLength(800);
         ImageView mapView = new ImageView(new Image(pathBackground));
         layoutMain.getChildren().add(mapView);
+        if(!MoveStage.isStop()) {
+            MoveStage.statusMiniMap();
+        }
         if(fortress.getTeam().equalsIgnoreCase(Team.RED.toString()))
         {
-            try {
                 Stream<Peasant> streamRed = Main.FORTRESS_RED.insidePeople.stream();
                 streamRed.forEach(el -> setTranslateZero(el,layout));
-            }
-            catch (Exception ex){}
         }
         else if(fortress.getTeam().equalsIgnoreCase(Team.GREEN.toString()))
         {
-            try {
                 Stream<Peasant> streamGreen = Main.FORTRESS_GREEN.insidePeople.stream();
                 streamGreen.forEach(el -> setTranslateZero(el,layout));
-            }
-            catch(Exception ex){}
         }
         layoutMain.getChildren().add(layout);
         layout.setMaxWidth(1200);
@@ -86,7 +82,7 @@ public class insideMacroObject
                 display(fortress);
                 for (var el : Initialization.createEveryThingArmy())
                 {
-                    if(el.equals(interactionWithEachPeople.elementAfterInsideMacro)) {
+                    if(el.equals(InteractionWithEachPeople.elementAfterInsideMacro)) {
                        if(el.getTeam().equals(Team.RED.toString())) {
                            el.setXY(xRED - 200, y);
                            el.getGroup().setTranslateX(xRED - 200);
@@ -97,7 +93,7 @@ public class insideMacroObject
                            el.getGroup().setTranslateX(xGREEN - 200);
                        }
                         el.getGroup().setTranslateY(y);
-                        interactionWithEachPeople.elementAfterInsideMacro = null;
+                        InteractionWithEachPeople.elementAfterInsideMacro = null;
                     }
                 }
             }

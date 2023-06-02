@@ -13,7 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.Collections;
 
-public class changePeopleParameterDialog
+public class ChangePeopleParameterDialog
 {
     public static void display()
     {

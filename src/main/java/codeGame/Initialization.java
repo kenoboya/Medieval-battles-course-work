@@ -9,10 +9,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,16 +32,15 @@ public class Initialization
 {
     public static void initialization()
     {
-        String pathBackground = "D:\\project\\game\\src\\main\\java\\codeGame\\image\\mapTest.jpg";
-        ImageView mapView = new ImageView(new Image(pathBackground));
+        ImageView mapView = new ImageView(new Image(Main.class.getResource("mapTest.jpg").toString()));
         Main.group.getChildren().add(mapView);
-        Main.group.getChildren().addAll(textCreated(),pointCreated(),borderRectangle());
+        Main.group.getChildren().addAll(textCreated(),pointCreated()/*,borderRectangle()*/);
         alreadyCreatedObjects();
-        Main.scene = new Scene(Main.group,0,0);
+        Main.scene = new Scene(Main.group,1,1);
         Control.control();
         initializationTimeline();
         Sound.playSoundTrack();
-        moveStage.createMiniMap();
+        MoveStage.createMiniMap();
     }
     private static Rectangle borderRectangle()
     {
@@ -104,20 +102,20 @@ public class Initialization
     }
     private static void initializationTimeline()
     {
-        intersection.intersectionWithFortress();
-        intersection.intersectionWithHouse();
-        intersection.intersectionAttackFlag();
-        intersection.intersectionFlagWithMacroObject();
-        intersection.intersectionAttackEnemy();
-        intersection.CartIntersectionWithMine();
-        intersection.belongingToMacro();
+        Intersection.intersectionWithFortress();
+        Intersection.intersectionWithHouse();
+        Intersection.intersectionAttackFlag();
+        Intersection.intersectionFlagWithMacroObject();
+        Intersection.intersectionAttackEnemy();
+        Intersection.CartIntersectionWithMine();
+        Intersection.belongingToMacro();
         Movement.walk();
     }
     private static void updatedSizeArray(int[] array)
     {
         array[0] = Main.armyRed.size();
         array[1] = Main.armyGreen.size();
-        array[2] = interactionWithEachPeople.getSelected().size();
+        array[2] = InteractionWithEachPeople.getSelected().size();
     }
     private static HBox pointCreated()
     {

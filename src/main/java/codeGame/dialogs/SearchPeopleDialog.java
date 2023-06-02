@@ -1,8 +1,7 @@
 package codeGame.dialogs;
 
 import codeGame.Initialization;
-import codeGame.Main;
-import codeGame.microObject.Peasant;
+import codeGame.action.SearchPeople;
 import codeGame.microObject.People;
 import codeGame.microObject.Team;
 import javafx.geometry.Pos;
@@ -11,16 +10,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.util.Collections;
-
-public class createPeopleDialog
+public class SearchPeopleDialog
 {
     public static void display()
     {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setResizable(false);
-        window.setTitle("Creating soldier");
+        window.setTitle("Search people");
         window.setMinWidth(350);
         window.setMinHeight(350);
 
@@ -29,7 +25,8 @@ public class createPeopleDialog
         layout.setSpacing(10);
 
         ComboBox comboBoxClass = new ComboBox<>();
-        comboBoxClass.getItems().addAll(People.getAllEnum());
+        comboBoxClass.getItems().addAll(People.PEASANT.toString(),People.WARRIOR.toString(),
+                People.KNIGHT.toString());
 
         RadioButton radioButtonRedTeam = new RadioButton(Team.RED.toString());
         RadioButton radioButtonGreenTeam = new RadioButton(Team.GREEN.toString());
@@ -40,39 +37,27 @@ public class createPeopleDialog
         Label nameLabel = new Label();
         nameLabel.setText("Name: ");
         TextField nameText = new TextField();
-        nameText.setPromptText("Arthur");
+        nameText.setPromptText("Maximiliano");
 
         Label ageLabel = new Label();
         ageLabel.setText("Age: ");
         TextField ageText = new TextField();
-        ageText.setPromptText("17");
+        ageText.setPromptText("24");
 
         Label teamLabel = new Label();
         teamLabel.setText("Team: ");
 
-        Label xLabel = new Label();
-        xLabel.setText("X: ");
-        TextField xText = new TextField();
-        xText.setPromptText("0 to 2750");
-
-        Label yLabel = new Label();
-        yLabel.setText("Y: ");
-        TextField yText = new TextField();
-        yText.setPromptText("0 to 1375");
-
         Label classLabel = new Label();
         classLabel.setText("Type: ");
 
-        Button createButton = new Button("Create");
-        createButton.setOnAction((element) ->
+        Button searchButton = new Button("Search");
+        searchButton.setOnAction((element) ->
         {
             try {
                 String name = nameText.getText();
                 String age = ageText.getText();
                 String team = "null";
                 String Class = "null";
-                String X = xText.getText();
-                String Y = yText.getText();
 
                 if (radioButtonRedTeam.isSelected()) {
                     team = radioButtonRedTeam.getText();
@@ -87,12 +72,13 @@ public class createPeopleDialog
                 } else if (comboBoxClass.getValue().equals(People.KNIGHT.toString())) {
                     Class = People.KNIGHT.toString();
                 }
-                if (!Class.equals("null") && !team.equals("null")) {
-                    Initialization.createFactory(Class).createPeople(name,Integer.parseInt(age),
-                            Team.GREEN.toString(), Double.parseDouble(X),Double.parseDouble(Y));
+                for(var el : Initialization.createEveryThingArmy())
+                {
+                    if(el.getName().equalsIgnoreCase(name) && el.getAge() == Integer.parseInt(age)
+                    && el.getTeam().equalsIgnoreCase(team) && el.getType().toString().equalsIgnoreCase(Class))
+                    {
+                        SearchPeople.search(el);}
                 }
-                Collections.sort(Main.armyRed,new Peasant.PeopleDamageComparator());
-                Collections.sort(Main.armyGreen,new Peasant.PeopleDamageComparator());
             }
             catch(Exception ex)
             {
@@ -104,7 +90,7 @@ public class createPeopleDialog
         cancelButton.setOnAction((element) -> window.close());
         layout.getChildren()
                 .addAll(nameLabel,nameText,ageLabel,ageText,teamLabel,radioButtonRedTeam,radioButtonGreenTeam,
-                        xLabel,xText,yLabel,yText,classLabel,comboBoxClass, createButton,cancelButton);
+                        classLabel,comboBoxClass, searchButton,cancelButton);
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();

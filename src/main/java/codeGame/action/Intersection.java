@@ -8,9 +8,11 @@ import codeGame.macroObject.Fortress;
 import codeGame.microObject.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.util.Duration;
 
-public class intersection
+public class Intersection
 {
     private static boolean stop = false;
     private static Timeline[] timeline = new Timeline[7];
@@ -26,7 +28,7 @@ public class intersection
                     if(el.getTeam().equalsIgnoreCase(Team.GREEN.toString()))
                     {
                         if(!el.getStatusDead()) {
-                            Sound.playSound("D:\\project\\game\\src\\main\\java\\codeGame\\sound\\attackFortress.mp3");
+                            Sound.playSound("src\\main\\java\\codeGame\\sound\\attackFortress.mp3");
                         }
                         el.attackUnit(Fortress.getDamage());
                     }
@@ -37,7 +39,7 @@ public class intersection
                     if(el.getTeam().equalsIgnoreCase(Team.RED.toString()))
                     {
                         if(!el.getStatusDead()) {
-                            Sound.playSound("D:\\project\\game\\src\\main\\java\\codeGame\\sound\\attackFortress.mp3");
+                            Sound.playSound("src\\main\\java\\codeGame\\sound\\attackFortress.mp3");
                         }
                         el.attackUnit(Fortress.getDamage());
                     }
@@ -82,8 +84,10 @@ public class intersection
                    {
                        if(!el.getTeam().equalsIgnoreCase(flag.getTeam()))
                        {
-                           Main.group.getChildren().remove(flag.getGroup());
-                           flagDelete = flag;
+                           if(!el.getStatusDead()) {
+                               Main.group.getChildren().remove(flag.getGroup());
+                               flagDelete = flag;
+                           }
                        }
                        else
                        {
@@ -139,7 +143,7 @@ public class intersection
                             if (first.getX() + 125 > second.getX() && first.getY() + 175 > second.getY()) {
                                 if (!((first.getStatusDead() || second.getStatusDead())
                                         || (first.getStatusDead() && second.getStatusDead()))) {
-                                    Sound.playSound("D:\\project\\game\\src\\main\\java\\codeGame\\sound\\attackPeople.mp3");
+                                    Sound.playSound("src\\main\\java\\codeGame\\sound\\attackPeople.mp3");
                                     first.attackUnit(second.getDamage());
                                     second.attackUnit(first.getDamage());
                                 }
@@ -148,7 +152,7 @@ public class intersection
                             if (first.getX() - 125 < second.getX() && first.getY() - 175 < second.getY()) {
                                 if (!((first.getStatusDead() || second.getStatusDead())
                                         || (first.getStatusDead() && second.getStatusDead()))) {
-                                    Sound.playSound("D:\\project\\game\\src\\main\\java\\codeGame\\sound\\attackPeople.mp3");
+                                    Sound.playSound("src\\main\\java\\codeGame\\sound\\attackPeople.mp3");
                                     first.attackUnit(first.getDamage());
                                     second.attackUnit(second.getDamage());
                                 }
@@ -182,20 +186,50 @@ public class intersection
         timeline[4].setCycleCount(Timeline.INDEFINITE);
         timeline[4].play();
     }
+    private static boolean win = false;
+    private static void victoryDialog(boolean whoWin) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Victory!");
+        if (whoWin) {
+            alert.setHeaderText("Green team is win!");
+        }
+        else {
+            alert.setHeaderText("Red team is win!");
+        }
+        alert.setResultConverter(button ->
+        {
+            if(button == ButtonType.OK) {
+                System.exit(0);
+            }
+            return null;
+        });
+        alert.show();
+    }
     public static void CartIntersectionWithMine() {
         timeline[5] = new Timeline(new KeyFrame(Duration.millis(50), actionEvent ->
         {
+            if(Main.FORTRESS_GREEN.getPOINT() >= 1500 && !win) {
+                victoryDialog(true);
+                win = true;
+            }
+            else if(Main.FORTRESS_RED.getPOINT() >= 1500 && !win) {
+                victoryDialog(false);
+                win = true;
+            }
             for(var mine : Main.mineList)
             {
                 for(var cart : Cart.cartList) {
-                    if (mine.getTeam().equalsIgnoreCase(cart.getTeam())) {
-                        if (mine.getImageView().getBoundsInParent().intersects(cart.getGroup().getBoundsInParent())) {
-                            if (!cart.getCollects() && !(cart.getCountCoal() >= cart.getLimitCoal()))
-                            {
-                                cart.startCollect();
+                    if(!cart.getMove()) {
+                        if (mine.getTeam().equalsIgnoreCase(cart.getTeam())) {
+                            if (mine.getImageView().getBoundsInParent().intersects(cart.getGroup().getBoundsInParent())) {
+                                if (!cart.getCollects() && !(cart.getCountCoal() >= cart.getLimitCoal())) {
+                                    cart.startCollect();
+                                }
+                            } else if (cart.getCountCoal() == 0 && !mine.isCart()) {
+                                cart.moveTo(mine);
+                                mine.setCart(true);
                             }
                         }
-                        else if (cart.getCountCoal() == 0) {cart.moveTo(mine);}
                     }
                     if (cart.getTeam().equalsIgnoreCase(Team.RED.toString()))
                     {
@@ -204,10 +238,10 @@ public class intersection
                         {
                             if (cart.getCountCoal() >= cart.getLimitCoal()) {
                                 cart.moveTo(Main.FORTRESS_RED);
+                                mine.setCart(false);
                             }
                         }
-                        else
-                        {
+                        else{
                             cart.ShipmentAtTheCastle(Main.FORTRESS_RED);
                         }
                     }
@@ -216,13 +250,12 @@ public class intersection
                         if (!Main.FORTRESS_GREEN.getImageView().getBoundsInParent()
                                 .intersects(cart.getGroup().getBoundsInParent()))
                         {
-                            if (cart.getCountCoal() >= cart.getLimitCoal())
-                            {
+                            if (cart.getCountCoal() >= cart.getLimitCoal()) {
                                 cart.moveTo(Main.FORTRESS_GREEN);
+                                mine.setCart(false);
                             }
                         }
-                        else
-                        {
+                        else {
                             cart.ShipmentAtTheCastle(Main.FORTRESS_GREEN);
                         }
                     }
@@ -242,8 +275,10 @@ public class intersection
                     if (macro.getType() != Building.FORTRESS &&
                             macro.getImageView().getBoundsInParent()
                             .intersects(el.getGroup().getBoundsInParent()))
-                    {if(!macro.insidePeople.contains(el)) {macro.insidePeople.add(el);}}
-                    else {macro.insidePeople.remove(el);}
+                    {
+                        if(!macro.insidePeople.contains(el)) {macro.insidePeople.add(el);}
+                        else {macro.insidePeople.remove(el);}
+                    }
                 }
             }
         }));

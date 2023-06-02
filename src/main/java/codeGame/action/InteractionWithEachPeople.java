@@ -10,7 +10,7 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class interactionWithEachPeople
+public class InteractionWithEachPeople
 {
     private static HashMap<ImageView, Peasant> mapPeople = new HashMap<>();
     static ArrayList <Peasant> selected = new ArrayList<>();
@@ -37,7 +37,8 @@ public class interactionWithEachPeople
                 TranslateTransition transition = new TranslateTransition(Duration.millis(1));
                 transition.setNode(el.getGroup());
                 double newX = el.getX() - 10;
-                if (Main.sizeX >= newX && newX >= Main.minX) {
+                if (Main.sizeX >= newX && newX >= Main.minX - 200)
+                {
                     transition.setByX(-10);
                     el.setXY(newX, el.getY());
                 }
@@ -53,7 +54,7 @@ public class interactionWithEachPeople
                 TranslateTransition transition = new TranslateTransition(Duration.millis(1));
                 transition.setNode(el.getGroup());
                 double newX = el.getX() + 10;
-                if (Main.sizeX >= newX && newX >= Main.minX) {
+                if (Main.sizeX >= newX && newX >= Main.minX - 200) {
                     transition.setByX(10);
                     el.setXY(newX, el.getY());
                 }
@@ -108,13 +109,13 @@ public class interactionWithEachPeople
                 {
                     Main.FORTRESS_RED.insidePeople.remove(people);
                     elementAfterInsideMacro = people;
-                    insideMacroObject.window.close();
+                    InsideMacroObject.window.close();
                 }
                 else if(Main.FORTRESS_GREEN.insidePeople.contains(people))
                 {
                     Main.FORTRESS_GREEN.insidePeople.remove(people);
                     elementAfterInsideMacro = people;
-                    insideMacroObject.window.close();
+                    InsideMacroObject.window.close();
                 }
                 people.takePeople();
                 selected.add(people);
@@ -126,6 +127,7 @@ public class interactionWithEachPeople
     {
         for(var el : selected)
         {
+            el.letGoPeople();
                 if(el.getTeam().equalsIgnoreCase(Team.RED.toString()))
                 {
                     Main.armyRed.remove(el);

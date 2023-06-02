@@ -14,10 +14,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class House extends Construction
+public class House extends Construction implements Serializable
 {
     private List<Warrior> finishedList = new ArrayList<>();
     private List<Warrior> flagMakingList = new ArrayList<>();
@@ -43,7 +44,7 @@ public class House extends Construction
     private void setImageView()
     {
         imageView = new ImageView(
-                new Image("D:\\project\\game\\src\\main\\java\\codeGame\\image\\house.png"));
+                new Image(Main.class.getResource("house.png").toString(),0,0,false,false));
         imageView.setX(x); imageView.setY(y);
     }
     private void InformationAboutProcess()
@@ -113,4 +114,5 @@ public class House extends Construction
             timeline.play();
         }
     }
+
 }

@@ -1,8 +1,6 @@
 package codeGame.dialogs;
 
 import codeGame.Initialization;
-import codeGame.Main;
-import codeGame.macroObject.Building;
 import codeGame.microObject.Peasant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
-public class getPeopleBelongingToMacroObject
+public class GetPeopleBelongingToMacroObject
 {
    public static void display(boolean belonging)
    {

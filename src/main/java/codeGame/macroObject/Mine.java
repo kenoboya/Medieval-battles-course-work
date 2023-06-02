@@ -12,8 +12,12 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-public class Mine extends Construction
+
+import java.io.Serializable;
+
+public class Mine extends Construction implements Serializable
 {
+    private volatile boolean cart = false;
     protected Building type = Building.MINE;
     private Text name = new Text();
     protected Circle circle;
@@ -32,10 +36,17 @@ public class Mine extends Construction
     public double getX() {return x;}
     public double getY() {return y;}
     public String getName() {return name.getText();}
+
+    public boolean isCart() {
+        return cart;
+    }
+    public void setCart(boolean status) {
+        cart = status;
+    }
     private void setImageView()
     {
         imageView = new ImageView(
-                new Image("D:\\project\\game\\src\\main\\java\\codeGame\\image\\mine.png"));
+                new Image(Main.class.getResource("mine.png").toString(),0,0,false,false));
         imageView.setX(x); imageView.setY(y);
     }
     private void setName()

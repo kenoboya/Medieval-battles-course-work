@@ -2,7 +2,7 @@ package codeGame.macroObject;
 
 import codeGame.Initialization;
 import codeGame.Main;
-import codeGame.action.insideMacroObject;
+import codeGame.action.InsideMacroObject;
 import codeGame.microObject.Team;
 import javafx.scene.Group;
 import javafx.scene.effect.Glow;
@@ -15,7 +15,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class Fortress extends Construction
+import java.io.Serializable;
+
+public class Fortress extends Construction implements Serializable
 {
     protected Building type = Building.FORTRESS;
     private int POINT = 0;
@@ -67,23 +69,22 @@ public class Fortress extends Construction
         if(team.equalsIgnoreCase(Team.RED.toString()))
         {
             imageView = new ImageView(
-                    new Image("D:\\project\\game\\src\\main\\java\\codeGame\\image\\fortress_red.png"));
+                    new Image(Main.class.getResource("fortress_red.png").toString()));
             imageView.setX(x); imageView.setY(y);
         }
         else if(team.equalsIgnoreCase(Team.GREEN.toString()))
         {
             imageView = new ImageView(
-                    new Image("D:\\project\\game\\src\\main\\java\\codeGame\\image\\fortress_green.png"));
+                    new Image(Main.class.getResource("fortress_green.png").toString()));
             imageView.setX(x); imageView.setY(y);
         }
-        imageView.setOnMouseClicked(insideMacroObject.getHandler());
+        imageView.setOnMouseClicked(InsideMacroObject.getHandler());
     }
     private Group setGroup()
     {
         group = new Group(circle,imageView,textTeam);
         return group;
     }
-    public Group getGroup(){return group;}
     private void setCircle()
     {
         circle = new Circle(x + 200.0,y + 175.0,200);

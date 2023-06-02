@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,9 +27,6 @@ public class Main extends Application {
     public static final double minX = 200 , minY = 125, sizeX = 2550, sizeY = 1425; // 0 0 2750 1375
     @Override
     public void start(Stage stage) throws IOException {
-        /*FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("BelongingToTheMacroObject.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");*/
         Initialization.initialization();
         stage.setMaximized(true);
         stage.setScene(scene);

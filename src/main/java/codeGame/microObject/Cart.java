@@ -15,9 +15,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cart
+public class Cart implements Serializable
 {
     private double x,y;
     private Text coal;
@@ -26,7 +27,7 @@ public class Cart
     private int countCoal, limitCoal = 100;
     public static ArrayList<Cart> cartList = new ArrayList<>();
     private ImageView imageView =
-            new ImageView(new Image("D:\\project\\game\\src\\main\\java\\codeGame\\image\\cart.png"));
+            new ImageView(new Image(Main.class.getResource("cart.png").toString()));
     private Group group = new Group();
     private Cart(String team, int countCoal,double x, double y)
     {
@@ -45,6 +46,7 @@ public class Cart
     public int getCountCoal(){return countCoal;}
     public int getLimitCoal(){return limitCoal;}
     public void setMove(boolean move) {this.move = move;}
+    public boolean getMove(){return move;}
     public boolean getCollects(){return collects;}
     public Group getGroup(){return group;}
     public void setCollects(boolean status){collects = status;}

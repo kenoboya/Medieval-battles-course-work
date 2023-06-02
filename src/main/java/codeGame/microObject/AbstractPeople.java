@@ -7,19 +7,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
-public abstract class AbstractPeople
+import java.io.Serializable;
+
+public abstract class AbstractPeople implements Serializable
 {
     int HP,age;
     double DAMAGE;
     volatile double  x,y;
     boolean dead;
-    ImageView viewObject,healthView;
-    Image imageObject;
-    Group group, groupHP;
+    transient ImageView viewObject,healthView;
+    transient Image imageObject;
+    transient Group group, groupHP;
     String team,name;
     String pathRED,pathGREEN;
-    Label label;
-    Rectangle lineRectangle = new Rectangle();
+    transient Label label;
+    transient Rectangle lineRectangle = new Rectangle();
     abstract public void dead();
     abstract public boolean attackUnit(double damage);
     abstract public TranslateTransition walk();

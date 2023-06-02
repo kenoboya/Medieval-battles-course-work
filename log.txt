@@ -1,39 +1,89 @@
-[17-05-2023 18:41:25] A macro object has been created to: RED FORTRESS
-[17-05-2023 18:41:25] A macro object has been created to: GREEN FORTRESS
-[17-05-2023 18:41:25] A macro object has been created to: First house
-[17-05-2023 18:41:25] A macro object has been created to: Second house
-[17-05-2023 18:41:25] A macro object has been created to: Third house
-[17-05-2023 18:41:25] A macro object has been created to: Fourth house
-[17-05-2023 18:41:25] A macro object has been created to: Fifth house
-[17-05-2023 18:41:25] A macro object has been created to: First mine
-[17-05-2023 18:41:26] A macro object has been created to: Second mine
-[17-05-2023 18:41:26] A macro object has been created to: Third mine
-[17-05-2023 18:41:26] A micro object has been created to: San
-[17-05-2023 18:41:26] A micro object has been created to: Dan
-[17-05-2023 18:41:26] A micro object has been created to: Zaur
-[17-05-2023 18:41:26] A micro object has been created to: Fabrio
-[17-05-2023 18:41:26] A micro object has been created to: Erjan
-[17-05-2023 18:41:26] A micro object has been created to: Oleg
-[17-05-2023 18:41:26] A micro object has been created to: Danila
-[17-05-2023 18:41:26] A micro object has been created to: Arthur
-[17-05-2023 18:41:26] A micro object has been created to: Rollo
-[17-05-2023 18:41:26] A micro object has been created to: Alberto
-[17-05-2023 18:41:26] A micro object has been created to: Bogdan
-[17-05-2023 18:41:26] A micro object has been created to: Max
-[17-05-2023 18:41:26] A micro object has been created to: Ragnar
-[17-05-2023 18:41:26] A micro object has been created to: Diego
-[17-05-2023 18:41:26] A micro object has been created to: Hans
-[17-05-2023 18:41:26] A micro object has been created to: Bjorn
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects was started 
-[17-05-2023 18:41:26] The movement of micro-objects wa
+[02-06-2023 22:07:34] A macro object has been created to: RED FORTRESS
+[02-06-2023 22:07:34] A macro object has been created to: GREEN FORTRESS
+[02-06-2023 22:07:34] A macro object has been created to: First house
+[02-06-2023 22:07:34] A macro object has been created to: Second house
+[02-06-2023 22:07:34] A macro object has been created to: Third house
+[02-06-2023 22:07:34] A macro object has been created to: Fourth house
+[02-06-2023 22:07:34] A macro object has been created to: Fifth house
+[02-06-2023 22:07:34] A macro object has been created to: First mine
+[02-06-2023 22:07:34] A macro object has been created to: Second mine
+[02-06-2023 22:07:34] A macro object has been created to: Third mine
+[02-06-2023 22:07:34] A micro object has been created to: San
+[02-06-2023 22:07:34] A micro object has been created to: Dan
+[02-06-2023 22:07:34] A micro object has been created to: Zaur
+[02-06-2023 22:07:34] A micro object has been created to: Fabrio
+[02-06-2023 22:07:34] A micro object has been created to: Erjan
+[02-06-2023 22:07:34] A micro object has been created to: Oleg
+[02-06-2023 22:07:34] A micro object has been created to: Danila
+[02-06-2023 22:07:34] A micro object has been created to: Arthur
+[02-06-2023 22:07:34] A micro object has been created to: Rollo
+[02-06-2023 22:07:34] A micro object has been created to: Alberto
+[02-06-2023 22:07:34] A micro object has been created to: Bogdan
+[02-06-2023 22:07:34] A micro object has been created to: Max
+[02-06-2023 22:07:34] A micro object has been created to: Ragnar
+[02-06-2023 22:07:34] A micro object has been created to: Diego
+[02-06-2023 22:07:34] A micro object has been created to: Hans
+[02-06-2023 22:07:34] A micro object has been created to: Bjorn
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:34] The movement of micro-objects was started 
+[02-06-2023 22:07:37] The movement of micro-objects was stopped 
+[02-06-2023 22:07:38] The movement of micro-objects was stopped 
+[02-06-2023 22:07:41] The micro-object was chosen to: Bogdan
+[02-06-2023 22:07:41] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:42] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-06-2023 22:07:43] Selected micro-objects have been moved to the left 
+[02-0

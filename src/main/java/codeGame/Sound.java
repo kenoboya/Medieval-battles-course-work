@@ -18,7 +18,7 @@ public class Sound
     public static void playSoundTrack()
     {
         Media sound = new Media
-                (new File("D:\\project\\game\\src\\main\\java\\codeGame\\sound\\soundtrackOriginSound.mp3")
+                (new File("src\\main\\java\\codeGame\\sound\\soundtrackOriginSound.mp3")
                         .toURI().toString());
         soundtrack = new MediaPlayer(sound);
         soundtrack.setAutoPlay(true);
